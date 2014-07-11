@@ -1,6 +1,7 @@
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <%@ page import="se.mxt.code.radiocontrol.servlet.MockupSchedule" %>
 <%@ page import="se.mxt.code.radiocontrol.ProgramSchedule" %>
+<%@ page import="se.mxt.code.radiocontrol.ProgramScheduleRow" %>
 <%@ page import="se.mxt.code.radiocontrol.ProgramBlock" %>
 <%@ page import="se.mxt.code.radiocontrol.PlaylistPlayer" %>
 <%@ page import="se.mxt.code.radiocontrol.ProgramChannel" %>
@@ -12,29 +13,47 @@
 <html>
 <head>
     <title>Schedule</title>
+    <link type="text/css" rel="stylesheet" href="/stylesheets/schedule.css"/>
 </head>
 
 <body>
-    <div id="channelinfo">
-    </div>
-
-    <div id="playerinfo">
-    <%
-        PlaylistPlayer player = channel.getPlayer();
-        String status = "No music is playing";
-
-        if (player.isPlaying()) {
-            status = "Music player is playing " + player.currentSong();
-        }
-    %>
-    <p><%=status%></p>
-    </div>
-
-    <div id="schedule">
-    <% for(ProgramBlock block : schedule.getBlocks()) { %>
-        <div id="block" class="block-<%=block.getType()%>">
+    <div id="main-container">
+        <div id="channelinfo" class="contentinfo position-zindex">
+            <span>
+            <p>Start time: <%=ProgramSchedule.formatDate(schedule.getStartTime())%></p>
+            <p>Stop time: <%=ProgramSchedule.formatDate(schedule.getStopTime())%></p>
+            </span>
         </div>
-    <% } %>
+
+        <div id="playerinfo" class="contentinfo position-zindex">
+        <%
+            PlaylistPlayer player = channel.getPlayer();
+            String status = "Not connected to any playlist player";
+
+            if (player != null && player.isConnected()) {
+                if (player.isPlaying()) {
+                    status = "Playlist player is playing '" + player.currentSong() + "'";
+                } else {
+                    status = "No music is playing";
+                }
+            }
+        %>
+        <p><%=status%></p>
+        </div>
+
+        <div id="schedule">
+        <% for(ProgramScheduleRow row : schedule.getScheduleRows()) { %>
+            <div id="block" class="block block-<%=row.getBlock().getType()%>">
+              <table>
+                <tr id="<%=row.getRowID()%>">
+                  <td class="blocktime"><%=ProgramSchedule.format(row.getStartTime())%></td>
+                  <td class="blocktype"><%=row.getBlock().getType()%></td>
+                  <td class="blockdesc"><%=row.getBlock().getBlockInfo()%></td>
+                </tr>
+              </table>
+            </div>
+        <% } %>
+        </div>
     </div>
 </body>
 </html>

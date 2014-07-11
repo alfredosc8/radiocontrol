@@ -1,6 +1,8 @@
 package se.mxt.code.radiocontrol;
 
 import com.google.appengine.repackaged.org.joda.time.DateTime;
+import com.google.appengine.repackaged.org.joda.time.format.DateTimeFormat;
+import com.google.appengine.repackaged.org.joda.time.format.DateTimeFormatter;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -14,14 +16,33 @@ public class ProgramSchedule {
     private ProgramChannel channel;
     private List<ProgramBlock> programBlocks;
 
-    public ProgramSchedule(ProgramChannel channel) {
+    public static String format(DateTime time) {
+        return time.toString("HH:mm:ss");
+    }
+
+    public static String formatDate(DateTime time) {
+        return time.toString("YYYY-MM-dd HH:mm:ss");
+    }
+
+    public ProgramSchedule(DateTime start, DateTime end, ProgramChannel channel) {
         programBlocks = new ArrayList<ProgramBlock>();
         this.channel = channel;
+        this.scheduleStart = start;
+        this.scheduleEnd = end;
+    }
+
+    public DateTime getStartTime() {
+        return scheduleStart;
+    }
+
+    public DateTime getStopTime() {
+        return scheduleEnd;
     }
 
     public ProgramChannel getChannel() {
         return channel;
     }
+
 
     public void addBlock(ProgramBlock block) {
         programBlocks.add(block);
@@ -29,5 +50,24 @@ public class ProgramSchedule {
 
     public List<ProgramBlock> getBlocks() {
         return programBlocks;
+    }
+
+    public List<ProgramScheduleRow> getScheduleRows() {
+        List<ProgramScheduleRow> scheduleRows = new ArrayList<ProgramScheduleRow>();
+
+        scheduleRows.add(new ProgramScheduleRow(scheduleStart, scheduleStart, new StartBlock()));
+        int startOffset = 0;
+        for(ProgramBlock block : getBlocks()) {
+            startOffset += block.getStartOffset();
+            DateTime start = scheduleStart.plusSeconds(startOffset);
+            DateTime end = start.plusSeconds(block.getDuration());
+            ProgramScheduleRow row = new ProgramScheduleRow(start, end, block);
+            startOffset += block.getDuration();
+            scheduleRows.add(row);
+        }
+        DateTime fillStart = scheduleStart.plusSeconds(startOffset);
+        scheduleRows.add(new ProgramScheduleRow(fillStart, scheduleEnd, new FillBlock()));
+        scheduleRows.add(new ProgramScheduleRow(scheduleEnd, scheduleEnd, new EndBlock()));
+        return scheduleRows;
     }
 }

@@ -1,0 +1,67 @@
+body {
+    font-family: Verdana, Helvetica, sans-serif;
+    background-color: #efefef;
+}
+
+.position-zindex {
+    position:relative;
+    z-index:9999;
+}
+
+.contentinfo {
+    font-size: 12pt;
+    letter-spacing: 1pt;
+    margin-left: 20px;
+}
+
+.block {
+    border: 1px solid;
+    margin: 2px 2px 2px 2px;
+}
+
+.block-live {
+    background-color: #aaaaaa;
+}
+
+.block-music {
+    background-color: yellow;
+}
+
+.block-start {
+    background-color: red;
+}
+
+.block-end {
+    background-color: red;
+}
+
+.block-fill {
+    background-color: white;
+}
+
+table {
+    width: 100%;
+}
+
+td.blocktype {
+    text-transform: uppercase;
+    width: 20%;
+    margin: 5px 5px 5px 5px;
+}
+
+td.blockdesc {
+    margin: 5px 5px 5px 5px;
+}
+
+td.blocktime {
+    width: 20%;
+    margin: 5px 5px 5px 5px;
+}
+
+#main-container {
+    font-family: Verdana, Helvetica, sans-serif;
+    font-size: 18pt;
+    width: 80%;
+    border: 1px solid;
+    background-color: #ffffff;
+}

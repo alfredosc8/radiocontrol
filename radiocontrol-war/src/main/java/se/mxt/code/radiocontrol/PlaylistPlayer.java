@@ -7,6 +7,7 @@ public interface PlaylistPlayer {
     public void loadPlaylist(String playlist);
     public void play();
     public void pause();
+    public boolean isConnected();
     public boolean isPlaying();
     public String currentSong();
 

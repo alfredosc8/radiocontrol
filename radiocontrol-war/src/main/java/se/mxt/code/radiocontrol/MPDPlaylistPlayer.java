@@ -33,8 +33,19 @@ public class MPDPlaylistPlayer implements PlaylistPlayer {
     }
 
     @Override
+    public boolean isConnected() {
+        if (mpdServer != null) {
+            return mpdServer.isConnected();
+        }
+        return false;
+    }
+
+    @Override
     public boolean isPlaying() {
         try {
+            if (mpdPlayer == null) {
+                return false;
+            }
             Player.Status status = mpdPlayer.getStatus();
             if (status == Player.Status.STATUS_PLAYING) {
                 return true;
