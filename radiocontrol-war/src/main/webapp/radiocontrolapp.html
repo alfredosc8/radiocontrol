@@ -1,0 +1,38 @@
+<html ng-app="radiocontrolApp">
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.3.0-beta.14/angular.min.js"></script>
+    <script type="text/javascript" src="js/controllers.js"></script>
+    <link type="text/css" rel="stylesheet" href="/stylesheets/schedule.css"/>
+    <link rel="stylesheet" href="//maxcdn.bootstrapcdn.com/bootstrap/3.2.0/css/bootstrap.min.css">
+    <link rel="stylesheet" href="//maxcdn.bootstrapcdn.com/bootstrap/3.2.0/css/bootstrap-theme.min.css">
+</head>
+
+<body>
+    <div id="status-container">
+
+    </div>
+
+    <div id="schedule-container">
+        <div id="scheduleinfo-container">
+
+        </div>
+        <div ng-controller="ScheduleCtrl">
+            <div ng-repeat="row in schedulerows">
+                <table>
+                    <tr>
+                        <td class="blocktime">{{row.starttime}}</td>
+                        <td class="blocktype">{{row.type}}</td>
+                        <td class="blockdesc">{{row.description}}</td>
+                    </tr>
+                </table>
+            </div>
+        </div>
+    </div>
+
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.1/jquery.min.js"></script>
+    <script src="//maxcdn.bootstrapcdn.com/bootstrap/3.2.0/js/bootstrap.min.js"></script>
+</body>
+</html>

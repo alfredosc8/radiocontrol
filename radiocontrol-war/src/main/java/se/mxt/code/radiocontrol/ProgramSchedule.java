@@ -70,4 +70,12 @@ public class ProgramSchedule {
         scheduleRows.add(new ProgramScheduleRow(scheduleEnd, scheduleEnd, new EndBlock()));
         return scheduleRows;
     }
+
+    public String toJson() {
+        String json = "";
+        for(ProgramScheduleRow row : getScheduleRows()) {
+
+        }
+        return json;
+    }
 }

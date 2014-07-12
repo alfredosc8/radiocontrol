@@ -10,6 +10,7 @@
     ProgramSchedule schedule = new MockupSchedule().getSchedule();
     ProgramChannel channel = schedule.getChannel();
 %>
+<!doctype html>
 <html>
 <head>
     <title>Schedule</title>
@@ -18,14 +19,14 @@
 
 <body>
     <div id="main-container">
-        <div id="channelinfo" class="contentinfo position-zindex">
+        <div id="channelinfo-container">
             <span>
             <p>Start time: <%=ProgramSchedule.formatDate(schedule.getStartTime())%></p>
             <p>Stop time: <%=ProgramSchedule.formatDate(schedule.getStopTime())%></p>
             </span>
         </div>
 
-        <div id="playerinfo" class="contentinfo position-zindex">
+        <div id="playerinfo-container">
         <%
             PlaylistPlayer player = channel.getPlayer();
             String status = "Not connected to any playlist player";
@@ -41,7 +42,7 @@
         <p><%=status%></p>
         </div>
 
-        <div id="schedule">
+        <div id="schedule-container">
         <% for(ProgramScheduleRow row : schedule.getScheduleRows()) { %>
             <div id="block" class="block block-<%=row.getBlock().getType()%>">
               <table>
