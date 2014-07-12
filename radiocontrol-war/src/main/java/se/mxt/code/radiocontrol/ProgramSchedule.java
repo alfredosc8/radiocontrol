@@ -4,6 +4,7 @@ import com.google.appengine.repackaged.org.joda.time.DateTime;
 import com.google.appengine.repackaged.org.joda.time.format.DateTimeFormat;
 import com.google.appengine.repackaged.org.joda.time.format.DateTimeFormatter;
 
+import javax.json.*;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -73,9 +74,18 @@ public class ProgramSchedule {
 
     public String toJson() {
         String json = "";
-        for(ProgramScheduleRow row : getScheduleRows()) {
+        JsonArrayBuilder jsonRowsBuilder = Json.createArrayBuilder();
+        JsonArray jsonRows;
 
+        for(ProgramScheduleRow row : getScheduleRows()) {
+            jsonRowsBuilder.add(Json.createObjectBuilder()
+                    .add("start", ProgramSchedule.format(row.getStartTime()))
+                    .add("type", row.getBlock().getType())
+                    .add("description", row.getBlock().getBlockInfo())
+            );
         }
-        return json;
+        jsonRows = jsonRowsBuilder.build();
+        JsonObject jsonSchedule = Json.createObjectBuilder().add("schedulerows", jsonRows).build();
+        return jsonSchedule.toString();
     }
 }
