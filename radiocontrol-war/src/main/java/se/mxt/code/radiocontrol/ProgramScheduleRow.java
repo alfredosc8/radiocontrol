@@ -2,6 +2,9 @@ package se.mxt.code.radiocontrol;
 
 import com.google.appengine.repackaged.org.joda.time.DateTime;
 
+import javax.json.Json;
+import javax.json.JsonObject;
+
 /**
  * Created by deejaybee on 7/11/14.
  */
@@ -30,5 +33,13 @@ public class ProgramScheduleRow {
 
     public String getRowID() {
         return block.getType() + "_" + absStart.toString("HHmmss");
+    }
+
+    public JsonObject asJsonObject() {
+        return Json.createObjectBuilder()
+                .add("seqno", block.getSeqNo())
+                .add("start", ProgramSchedule.format(absStart))
+                .add("type", block.getType())
+                .add("description", block.getBlockInfo()).build();
     }
 }

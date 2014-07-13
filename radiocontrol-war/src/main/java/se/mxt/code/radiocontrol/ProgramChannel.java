@@ -1,5 +1,8 @@
 package se.mxt.code.radiocontrol;
 
+import javax.json.Json;
+import javax.json.JsonObject;
+import javax.json.JsonObjectBuilder;
 import java.util.Collection;
 
 /**
@@ -7,10 +10,10 @@ import java.util.Collection;
  */
 public class ProgramChannel {
     private String channelTitle;
-    private Collection<ProgramSchedule> schedules;
     private PlaylistPlayer player;
 
-    public ProgramChannel(PlaylistPlayer player) {
+    public ProgramChannel(String channelTitle, PlaylistPlayer player) {
+        this.channelTitle = channelTitle;
         this.player = player;
     }
 
@@ -18,4 +21,10 @@ public class ProgramChannel {
         return player;
     }
 
+    public String getChannelTitle() { return channelTitle; }
+
+    public JsonObject asJsonObject() {
+        return Json.createObjectBuilder()
+                .add("title", channelTitle).build();
+    }
 }

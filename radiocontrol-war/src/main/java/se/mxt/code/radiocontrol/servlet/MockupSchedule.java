@@ -11,7 +11,7 @@ public class MockupSchedule {
 
     public MockupSchedule() {
         PlaylistPlayer player = new MPDPlaylistPlayer("aws01.mxt.se");
-        ProgramChannel channel = new ProgramChannel(player);
+        ProgramChannel channel = new ProgramChannel("Creative Radio One", player);
         DateTime now = DateTime.now();
         DateTime tomorrow = DateTime.now().plusDays(1);
         DateTime start = new DateTime(now.getYear(), now.getMonthOfYear(), now.getDayOfMonth(), 8, 0);

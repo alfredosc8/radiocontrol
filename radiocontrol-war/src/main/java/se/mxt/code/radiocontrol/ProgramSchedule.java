@@ -73,25 +73,21 @@ public class ProgramSchedule {
         return scheduleRows;
     }
 
-    public String toJson() {
-        String json = "";
+    public JsonObject asJsonObject() {
         JsonArrayBuilder jsonRowsBuilder = Json.createArrayBuilder();
-        JsonArray jsonRows;
-
         for(ProgramScheduleRow row : getScheduleRows()) {
-            jsonRowsBuilder.add(Json.createObjectBuilder()
-                    .add("seqno", row.getBlock().getSeqNo())
-                    .add("start", ProgramSchedule.format(row.getStartTime()))
-                    .add("type", row.getBlock().getType())
-                    .add("description", row.getBlock().getBlockInfo())
-            );
+            jsonRowsBuilder.add(row.asJsonObject());
         }
-        jsonRows = jsonRowsBuilder.build();
-        JsonObjectBuilder jsonScheduleBuilder = Json.createObjectBuilder();
-        jsonScheduleBuilder.add("rows", jsonRows);
-        jsonScheduleBuilder.add("start", ProgramSchedule.formatDate(scheduleStart));
-        jsonScheduleBuilder.add("end", ProgramSchedule.formatDate(scheduleEnd));
-        JsonObject jsonSchedule = jsonScheduleBuilder.build();
-        return jsonSchedule.toString();
+
+        return Json.createObjectBuilder()
+            .add("channel", channel.asJsonObject())
+            .add("rows", jsonRowsBuilder.build())
+            .add("start", ProgramSchedule.formatDate(scheduleStart))
+            .add("end", ProgramSchedule.formatDate(scheduleEnd)).build();
+
+    }
+
+    public String toJson() {
+        return asJsonObject().toString();
     }
 }
