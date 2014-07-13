@@ -7,6 +7,7 @@ public class LiveBlock implements ProgramBlock {
     private int startOffset = 0;
     private int blockDuration = ProgramBlock.DEFAULT_DURATION;
     private String blockInfo;
+    private int seqNo;
 
     public LiveBlock(int startOffset) {
         this.startOffset = startOffset;
@@ -51,5 +52,15 @@ public class LiveBlock implements ProgramBlock {
     @Override
     public String getType() {
         return "live";
+    }
+
+    @Override
+    public void setSeqNo(int seqNo) {
+        this.seqNo = seqNo;
+    }
+
+    @Override
+    public int getSeqNo() {
+        return this.seqNo;
     }
 }

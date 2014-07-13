@@ -11,4 +11,6 @@ public interface ProgramBlock {
     public String getType();
     public void setBlockInfo(String info);
     public String getBlockInfo();
+    public void setSeqNo(int seqNo);
+    public int getSeqNo();
 }

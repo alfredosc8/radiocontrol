@@ -9,6 +9,7 @@ public class MusicBlock implements ProgramBlock {
     private int blockDuration = ProgramBlock.DEFAULT_DURATION;
     private String blockInfo;
     private String playlistName = "NO PLAYLIST SPECIFIED";
+    private int seqNo;
 
     public MusicBlock(PlaylistPlayer player, int startOffset) {
         this.startOffset = startOffset;
@@ -62,4 +63,15 @@ public class MusicBlock implements ProgramBlock {
     public String getType() {
         return "music";
     }
+
+    @Override
+    public void setSeqNo(int seqNo) {
+        this.seqNo = seqNo;
+    }
+
+    @Override
+    public int getSeqNo() {
+        return this.seqNo;
+    }
+
 }

@@ -46,6 +46,7 @@ public class ProgramSchedule {
 
 
     public void addBlock(ProgramBlock block) {
+        block.setSeqNo(programBlocks.size());
         programBlocks.add(block);
     }
 
@@ -56,7 +57,7 @@ public class ProgramSchedule {
     public List<ProgramScheduleRow> getScheduleRows() {
         List<ProgramScheduleRow> scheduleRows = new ArrayList<ProgramScheduleRow>();
 
-        scheduleRows.add(new ProgramScheduleRow(scheduleStart, scheduleStart, new StartBlock()));
+        scheduleRows.add(new ProgramScheduleRow(scheduleStart, scheduleStart, new FillBlock(FillBlock.START)));
         int startOffset = 0;
         for(ProgramBlock block : getBlocks()) {
             startOffset += block.getStartOffset();
@@ -67,8 +68,8 @@ public class ProgramSchedule {
             scheduleRows.add(row);
         }
         DateTime fillStart = scheduleStart.plusSeconds(startOffset);
-        scheduleRows.add(new ProgramScheduleRow(fillStart, scheduleEnd, new FillBlock()));
-        scheduleRows.add(new ProgramScheduleRow(scheduleEnd, scheduleEnd, new EndBlock()));
+        scheduleRows.add(new ProgramScheduleRow(fillStart, scheduleEnd, new FillBlock(FillBlock.FILL)));
+        scheduleRows.add(new ProgramScheduleRow(scheduleEnd, scheduleEnd, new FillBlock(FillBlock.END)));
         return scheduleRows;
     }
 
@@ -79,6 +80,7 @@ public class ProgramSchedule {
 
         for(ProgramScheduleRow row : getScheduleRows()) {
             jsonRowsBuilder.add(Json.createObjectBuilder()
+                    .add("seqno", row.getBlock().getSeqNo())
                     .add("start", ProgramSchedule.format(row.getStartTime()))
                     .add("type", row.getBlock().getType())
                     .add("description", row.getBlock().getBlockInfo())

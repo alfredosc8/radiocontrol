@@ -1,6 +1,7 @@
 var radiocontrolApp = angular.module('radiocontrolApp', [
     'ngRoute',
-    'radiocontrolAppControllers'
+    'radiocontrolAppControllers',
+    'radiocontrolAppServices'
 ]);
 
 radiocontrolApp.config(['$routeProvider',

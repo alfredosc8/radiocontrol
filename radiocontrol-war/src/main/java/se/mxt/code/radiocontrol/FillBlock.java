@@ -4,6 +4,16 @@ package se.mxt.code.radiocontrol;
  * Created by deejaybee on 7/11/14.
  */
 public class FillBlock implements ProgramBlock {
+    public static String FILL = "fill";
+    public static String START = "start";
+    public static String END = "end";
+
+    private String type = FillBlock.FILL; // start, end, fill
+    private int seqNo;
+
+    public FillBlock(String type) {
+        this.type = type;
+    }
 
     @Override
     public void setBlockInfo(String info) {
@@ -27,7 +37,17 @@ public class FillBlock implements ProgramBlock {
 
     @Override
     public String getType() {
-        return "fill";
+        return type;
+    }
+
+    @Override
+    public void setSeqNo(int seqNo) {
+        this.seqNo = seqNo;
+    }
+
+    @Override
+    public int getSeqNo() {
+        return this.seqNo;
     }
 
 }
