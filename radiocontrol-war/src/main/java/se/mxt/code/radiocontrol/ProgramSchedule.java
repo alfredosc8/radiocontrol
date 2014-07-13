@@ -85,7 +85,11 @@ public class ProgramSchedule {
             );
         }
         jsonRows = jsonRowsBuilder.build();
-        JsonObject jsonSchedule = Json.createObjectBuilder().add("schedulerows", jsonRows).build();
+        JsonObjectBuilder jsonScheduleBuilder = Json.createObjectBuilder();
+        jsonScheduleBuilder.add("rows", jsonRows);
+        jsonScheduleBuilder.add("start", ProgramSchedule.formatDate(scheduleStart));
+        jsonScheduleBuilder.add("end", ProgramSchedule.formatDate(scheduleEnd));
+        JsonObject jsonSchedule = jsonScheduleBuilder.build();
         return jsonSchedule.toString();
     }
 }

@@ -1,0 +1,24 @@
+<div id="channel-container">
+
+</div>
+<div id="status-container">
+
+</div>
+
+<div id="schedule-container" class="container-fluid">
+    <div id="scheduleinfo-container">
+        <p>{{schedule.start}}</p>
+        <p>{{schedule.end}}</p>
+    </div>
+    <div ng-controller="ScheduleCtrl">
+        <div ng-repeat="row in schedule.rows">
+            <table>
+                <tr>
+                    <td class="blocktime">{{row.start}}</td>
+                    <td class="blocktype">{{row.type}}</td>
+                    <td class="blockdesc">{{row.description}}</td>
+                </tr>
+            </table>
+        </div>
+    </div>
+</div>

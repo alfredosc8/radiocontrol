@@ -1,12 +1,17 @@
-var radiocontrolApp = angular.module('radiocontrolApp', []);
+var radiocontrolAppControllers = angular.module('radiocontrolAppControllers', []);
 
-radiocontrolApp.controller('ScheduleCtrl', function ($scope) {
-    $scope.schedulerows = [
-      { 'start': '10:00:00',
-        'type': 'live',
-        'description': 'Test testsson' },
-      { 'start': '12:00:00',
-        'type': 'music',
-        'description': 'Testrad' }
-    ];
+/*
+radiocontrolAppControllers.controller('ScheduleCtrl', ['$scope', '$routeParams', 'Schedule',
+    function($scope, $routeParams, Schedule) {
+        Schedule.get({scheduleId: $routeParams.scheduleId}, function(data) {
+            $scope.schedulerows = data.schedulerows;
+        });
+    }
+]);
+*/
+
+radiocontrolAppControllers.controller('ScheduleCtrl', function ($scope, $routeParams, $http) {
+    $http.get('api/v1/schedule/' + $routeParams.scheduleId).success(function(data) {
+        $scope.schedule = data;
+    });
 });
