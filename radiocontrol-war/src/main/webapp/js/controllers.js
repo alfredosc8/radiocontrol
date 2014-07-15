@@ -23,9 +23,14 @@ radiocontrolAppControllers.controller('ListChannelCtrl', ['$scope', '$routeParam
             $location.path('/channel/new');
         };
         $scope.deletechannel = function(idx, channelId) {
-            Channel.delete({channelId: channelId});
-            $scope.channels.splice(idx, 1);
+            if (channelId > 0) {
+                Channel.delete({channelId: channelId});
+                $scope.channels.splice(idx, 1);
+            }
         };
+        $scope.playchannel = function(channelId) {
+            $location.path('radioplayer/' + channelId);
+        }
         Channel.get({}, function(data) {
             $scope.channels = data.channels;
         });
