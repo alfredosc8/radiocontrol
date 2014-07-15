@@ -17,6 +17,7 @@ public class RestRequest {
     private String resourceType;
     private String action;
     private BufferedReader bodyReader;
+    private String cursorParam;
 
     public RestRequest(String action, String pathInfo, BufferedReader bodyReader) throws ServletException {
         // regex parse pathInfo
@@ -66,6 +67,14 @@ public class RestRequest {
             builder.append(body);
         }
         return builder.toString();
+    }
+
+    public void setCursorParam(String param) {
+        this.cursorParam = param;
+    }
+
+    public String getCursorParam() {
+        return cursorParam;
     }
 
 }

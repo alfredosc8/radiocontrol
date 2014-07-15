@@ -1,10 +1,17 @@
 package se.mxt.code.radiocontrol.servlet;
 
+import com.google.appengine.api.datastore.Cursor;
+import com.google.appengine.api.datastore.QueryResultIterator;
 import com.googlecode.objectify.Key;
 import com.googlecode.objectify.Result;
+import com.googlecode.objectify.cmd.Query;
 import se.mxt.code.radiocontrol.ProgramChannel;
 import se.mxt.code.radiocontrol.ProgramSchedule;
 
+import javax.json.Json;
+import javax.json.JsonArray;
+import javax.json.JsonArrayBuilder;
+import javax.json.JsonObject;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletResponse;
 import java.io.BufferedReader;
@@ -20,6 +27,7 @@ import static se.mxt.code.radiocontrol.OfyService.ofy;
 public class RestEndpointDispatcher {
     private RestRequest request;
     private HttpServletResponse resp;
+    int page;
 
     public RestEndpointDispatcher(RestRequest request, HttpServletResponse resp) {
         this.request = request;
@@ -53,6 +61,25 @@ public class RestEndpointDispatcher {
 
             if (channelId == null) {
                 // Get a list of channels)
+                Query<ProgramChannel> query = ofy().load().type(ProgramChannel.class).limit(1000);
+                if (request.getCursorParam() != null) {
+                    query = query.startAt(Cursor.fromWebSafeString(request.getCursorParam()));
+                }
+                boolean cont = false;
+                QueryResultIterator<ProgramChannel> iterator = query.iterator();
+                JsonArrayBuilder jsonArrayBuilder = Json.createArrayBuilder();
+                while(iterator.hasNext()) {
+                    ProgramChannel channel = iterator.next();
+                    jsonArrayBuilder.add(channel.asJsonObject());
+                    cont = true;
+                }
+                if (cont) {
+                    // Add a link to next page in response
+                }
+                JsonObject jsonResponse = Json.createObjectBuilder().add("channels", jsonArrayBuilder.build()).build();
+                resp.setStatus(200);
+                resp.setContentType("application/json");
+                resp.getWriter().write(jsonResponse.toString());
             } else {
                 ProgramChannel channel = null;
                 if (channelId == 0) {

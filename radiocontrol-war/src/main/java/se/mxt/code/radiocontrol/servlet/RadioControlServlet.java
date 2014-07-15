@@ -22,6 +22,9 @@ public class RadioControlServlet extends HttpServlet {
         try {
             System.out.println("in doGet");
             RestRequest resourceValues = new RestRequest("GET", req.getPathInfo(), req.getReader());
+            if (req.getParameter("cursor") != null) {
+                resourceValues.setCursorParam(req.getParameter("cursor"));
+            }
             RestEndpointDispatcher dispatcher = new RestEndpointDispatcher(resourceValues, resp);
             dispatcher.dispatch();
         } catch (ServletException e) {
