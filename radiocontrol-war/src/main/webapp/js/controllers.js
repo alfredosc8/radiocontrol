@@ -16,3 +16,15 @@ radiocontrolAppControllers.controller('ChannelCtrl', ['$scope', '$routeParams', 
         });
     }
 ]);
+
+radiocontrolAppControllers.controller('NewChannelCtrl', ['$scope', 'Channel',
+    function($scope, Channel) {
+        $scope.submit = function() {
+            postData = {
+                'title': $scope.title,
+                'stream': $scope.stream
+            }
+            console.log(postData);
+            Channel.save({}, postData);
+        };
+}]);

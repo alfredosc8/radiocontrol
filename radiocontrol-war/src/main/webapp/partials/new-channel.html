@@ -1,0 +1,38 @@
+<div class="center-outer">
+    <div class="center-inner">
+        <h1 class="text-center">Create a new radio channel</h1>
+        <form ng-submit="submit()" class="form-horizontal" role="form">
+            <div class="form-group">
+                <label for="inputChannelName" class="col-sm-2 control-label">Channel Name</label>
+                <div class="col-sm-10">
+                    <input ng-model="title" type="text" class="form-control" placeholder="Name of your channel">
+                </div>
+            </div>
+
+            <div class="form-group">
+                <label for="inputStreamURL" class="col-sm-2 control-label">Stream URL</label>
+                <div class="col-sm-10">
+                    <input ng-model="stream" type="text" class="form-control" placeholder="e.g. http://aws01.mxt.se:8000/creativeradio?type=.mp3">
+                </div>
+            </div>
+
+            <div flow-init="{target: '/posterupload'}"
+                 flow-files-submitted="$flow.upload()"
+                 flow-file-success="$file.msg = $message" class="form-group">
+                <label for="inputPoster" class="col-sm-2 control-label">Poster Image</label>
+                <div class="col-sm-10">
+                    <img flow-drop class="col-sm-3 poster-preview" flow-img="$flow.files[0]">
+                    <span class="btn btn-default btn-sm" flow-btn>Choose file</span>
+                    <span class="label label-info">Size: {{$flow.getSize()}}</span>
+                    <span class="label label-info">Is Uploading: {{$flow.isUploading()}}</span>
+                </div>
+            </div>
+            <div class="form-group">
+                <div class="col-sm-offset-2 col-sm-10">
+                    <button type="submit" class="btn btn-primary">Create</button>
+                </div>
+            </div>
+
+        </form>
+    </div>
+</div>
