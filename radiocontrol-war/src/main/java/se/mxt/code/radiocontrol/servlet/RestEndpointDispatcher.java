@@ -68,6 +68,8 @@ public class RestEndpointDispatcher {
                 boolean cont = false;
                 QueryResultIterator<ProgramChannel> iterator = query.iterator();
                 JsonArrayBuilder jsonArrayBuilder = Json.createArrayBuilder();
+                // Include the mockup for fun...
+                jsonArrayBuilder.add(new MockupChannel().getChannel().asJsonObject());
                 while(iterator.hasNext()) {
                     ProgramChannel channel = iterator.next();
                     jsonArrayBuilder.add(channel.asJsonObject());
@@ -119,6 +121,17 @@ public class RestEndpointDispatcher {
         }
     }
 
+    public void dispatchDELETE() {
+        if (request.getResourceType().equals("channel")) {
+            Long channelId = request.getId();
+            System.out.println("DELETING channel " + channelId);
+            if (channelId != 0) {
+                ofy().delete().type(ProgramChannel.class).id(channelId).now();
+            }
+            resp.setStatus(200);
+        }
+    }
+
     public void dispatch() throws IOException {
         try {
             System.out.println(request.getAction());
@@ -126,6 +139,8 @@ public class RestEndpointDispatcher {
                 dispatchGET();
             } else if(request.getAction().equals("POST")) {
                 dispatchPOST();
+            } else if(request.getAction().equals("DELETE")) {
+                dispatchDELETE();
             }
         } catch (ServletException e) {
             resp.sendError(400, e.getMessage());

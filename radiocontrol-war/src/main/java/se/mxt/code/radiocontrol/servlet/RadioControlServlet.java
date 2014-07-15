@@ -48,4 +48,18 @@ public class RadioControlServlet extends HttpServlet {
         }
 
     }
+
+    @Override
+    public void doDelete(HttpServletRequest req, HttpServletResponse resp) throws IOException {
+        try {
+            System.out.println("in doDelete");
+            RestRequest resourceValues = new RestRequest("DELETE", req.getPathInfo(), req.getReader());
+            RestEndpointDispatcher dispatcher = new RestEndpointDispatcher(resourceValues, resp);
+            dispatcher.dispatch();
+        } catch(ServletException e) {
+            resp.setStatus(400);
+            resp.resetBuffer();
+            e.printStackTrace();
+        }
+    }
 }

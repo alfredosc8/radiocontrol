@@ -17,14 +17,30 @@ radiocontrolAppControllers.controller('ChannelCtrl', ['$scope', '$routeParams', 
     }
 ]);
 
-radiocontrolAppControllers.controller('NewChannelCtrl', ['$scope', 'Channel',
-    function($scope, Channel) {
+radiocontrolAppControllers.controller('ListChannelCtrl', ['$scope', '$routeParams', '$location', 'Channel',
+    function($scope, $routeParams, $location, Channel) {
+        $scope.newchannel = function() {
+            $location.path('/channel/new');
+        };
+        $scope.deletechannel = function(idx, channelId) {
+            Channel.delete({channelId: channelId});
+            $scope.channels.splice(idx, 1);
+        };
+        Channel.get({}, function(data) {
+            $scope.channels = data.channels;
+        });
+    }
+]);
+
+radiocontrolAppControllers.controller('NewChannelCtrl', ['$scope', '$location', 'Channel',
+    function($scope, $location, Channel) {
         $scope.submit = function() {
             postData = {
                 'title': $scope.title,
                 'stream': $scope.stream
             }
-            console.log(postData);
-            Channel.save({}, postData);
+            Channel.save({}, postData).$promise.then(function(result) {
+                $location.path('/channel');
+            })
         };
 }]);

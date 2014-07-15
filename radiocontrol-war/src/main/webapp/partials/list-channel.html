@@ -1,0 +1,24 @@
+<div>
+    <div class="container-fluid">
+        <h1 class="text-center">Radio Channels</h1>
+
+        <table class="table table-hover">
+            <tr>
+                <th>Channel Name</th>
+                <th>Stream URL</th>
+                <th>Poster Image</th>
+                <th></th>
+            </tr>
+            <tr ng-repeat="channel in channels">
+                <td>{{channel.title}}</td>
+                <td>{{channel.stream}}</td>
+                <td><img class="poster-preview-thumb" ng-src="{{channel.image}}"></td>
+                <td><button type="button" class="btn btn-danger" ng-click="deletechannel($index, channel.id)">Delete</button></td>
+            </tr>
+        </table>
+
+        <div>
+            <button type="button" class="btn btn-primary" ng-click="newchannel()">New Channel</button>
+        </div>
+    </div>
+</div>

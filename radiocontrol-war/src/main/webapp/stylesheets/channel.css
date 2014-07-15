@@ -14,3 +14,7 @@
     height: 20%;
     border: 1px 1px 1px 1px solid;
 }
+
+.poster-preview-thumb {
+    width: 50px;
+}

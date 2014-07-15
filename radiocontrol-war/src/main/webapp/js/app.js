@@ -14,6 +14,10 @@ radiocontrolApp.config(['$routeProvider',
                 templateUrl: 'partials/schedule.html',
                 controller: 'ScheduleCtrl'
             }).
+            when('/channel/', {
+                templateUrl: 'partials/list-channel.html',
+                controller: 'ListChannelCtrl'
+            }).
             when('/channel/new', {
                 templateUrl: 'partials/new-channel.html',
                 controller: 'NewChannelCtrl'
