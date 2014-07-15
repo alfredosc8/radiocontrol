@@ -1,24 +1,24 @@
-<div id="channel-container">
-
+<div id="channel-container" class="container-fluid">
+  <h1 class="text-center">{{schedule.channel.title}}</h1>
 </div>
-<div id="status-container">
+<div id="status-container" class="container-fluid">
 
 </div>
 
 <div id="schedule-container" class="container-fluid">
-    <div id="scheduleinfo-container">
-        <p>{{schedule.start}}</p>
-        <p>{{schedule.end}}</p>
+    <div id="scheduleinfo-container" class="row">
+        <div class="col-md-4">{{schedule.start}}</div>
+        <div class="col-md-4">CURRENT TIME</div>
+        <div class="col-md-4">{{schedule.end}}</div>
     </div>
     <div ng-controller="ScheduleCtrl">
-        <div ng-repeat="row in schedule.rows">
-            <table>
-                <tr>
-                    <td class="blocktime">{{row.start}}</td>
-                    <td class="blocktype">{{row.type}}</td>
-                    <td class="blockdesc">{{row.description}}</td>
-                </tr>
-            </table>
+        <div ng-repeat="row in schedule.rows" ng-drop="true" ng-drop-success="onDropComplete($index, $data,$event)" class="schedule-row block-{{row.type}} active-{{row.active}} row">
+            <div ng-drag="true" ng-drag-data="row">
+                <div class="col-md-1">{{row.seqno}}</div>
+                <div class="col-md-1">{{row.start}}</div>
+                <div class="col-md-1 text-uppercase">{{row.type}}</div>
+                <div class="col-md-9">{{row.description}}</div>
+            </div>
         </div>
     </div>
 </div>

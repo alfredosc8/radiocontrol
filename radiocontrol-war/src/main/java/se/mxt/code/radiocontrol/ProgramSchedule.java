@@ -4,6 +4,11 @@ import com.google.appengine.repackaged.org.joda.time.DateTime;
 import com.google.appengine.repackaged.org.joda.time.format.DateTimeFormat;
 import com.google.appengine.repackaged.org.joda.time.format.DateTimeFormatter;
 
+import com.googlecode.objectify.annotation.Entity;
+import com.googlecode.objectify.annotation.Id;
+import com.googlecode.objectify.annotation.Index;
+import com.googlecode.objectify.annotation.Load;
+
 import javax.json.*;
 import java.util.ArrayList;
 import java.util.List;
@@ -11,7 +16,9 @@ import java.util.List;
 /**
  * Created by deejaybee on 7/11/14.
  */
+@Entity
 public class ProgramSchedule {
+    @Id private Long id;
     private DateTime scheduleStart;
     private DateTime scheduleEnd;
     private ProgramChannel channel;

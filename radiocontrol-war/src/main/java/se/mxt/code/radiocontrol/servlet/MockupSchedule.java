@@ -11,7 +11,7 @@ public class MockupSchedule {
 
     public MockupSchedule() {
         PlaylistPlayer player = new MPDPlaylistPlayer("aws01.mxt.se");
-        ProgramChannel channel = new ProgramChannel("Creative Radio One", player);
+        ProgramChannel channel = new ProgramChannel("Creative Radio One", player, "http://aws01.mxt.se:8000/creativeradio?type=.mp3");
         DateTime now = DateTime.now();
         DateTime tomorrow = DateTime.now().plusDays(1);
         DateTime start = new DateTime(now.getYear(), now.getMonthOfYear(), now.getDayOfMonth(), 8, 0);
@@ -24,7 +24,10 @@ public class MockupSchedule {
         schedule.addBlock(syntheticBlock);
         schedule.addBlock(new LiveBlock(0, 2*3600, "Secret guest DJ"));
         schedule.addBlock(new MusicBlock(player, 0, 4*3600, "Electro sessions"));
-        schedule.addBlock(new MusicBlock(player, 0, 3*3600, "House session"));
+        MusicBlock houseSession = new MusicBlock(player, 0, 3*3600, "House session");
+        houseSession.take();
+        schedule.addBlock(houseSession);
+
         schedule.addBlock(new LiveBlock(0, 2*3600, "Stripped with DJ blah"));
         schedule.addBlock(new MusicBlock(player, 0, 3*3600, "Night music"));
     }

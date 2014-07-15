@@ -6,3 +6,10 @@ radiocontrolAppServices.factory('Schedule', ['$resource',
       query: { method:'GET', params: { scheduleId: 'schedule' } }
     });
   }]);
+
+radiocontrolAppServices.factory('Channel', ['$resource',
+  function($resource) {
+    return $resource('api/v1/channel/:channelId', {}, {
+      query: { method:'GET', params: { channelId: 'channel' } }
+    });
+  }]);

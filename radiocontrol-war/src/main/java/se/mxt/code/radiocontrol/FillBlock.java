@@ -50,4 +50,15 @@ public class FillBlock implements ProgramBlock {
         return this.seqNo;
     }
 
+    @Override
+    public boolean isActive() {
+        return false;
+    }
+
+    @Override
+    public void take() { }
+
+    @Override
+    public void untake() { }
+
 }

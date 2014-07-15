@@ -9,7 +9,7 @@ import com.googlecode.objectify.ObjectifyService;
  */
 public class OfyService {
     static {
-        factory().register(ProgramChannel.class);
+        factory().register(ProgramSchedule.class);
     }
 
     public static Objectify ofy() {

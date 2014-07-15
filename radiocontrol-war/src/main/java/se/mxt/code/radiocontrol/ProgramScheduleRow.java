@@ -40,6 +40,7 @@ public class ProgramScheduleRow {
                 .add("seqno", block.getSeqNo())
                 .add("start", ProgramSchedule.format(absStart))
                 .add("type", block.getType())
+                .add("active", block.isActive())
                 .add("description", block.getBlockInfo()).build();
     }
 }

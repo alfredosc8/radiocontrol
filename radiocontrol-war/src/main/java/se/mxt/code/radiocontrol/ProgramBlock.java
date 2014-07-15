@@ -6,6 +6,9 @@ package se.mxt.code.radiocontrol;
 public interface ProgramBlock {
     public static int DEFAULT_DURATION = 3600;
 
+    public void take();
+    public void untake();
+
     public int getStartOffset();
     public int getDuration();
     public String getType();
@@ -13,4 +16,5 @@ public interface ProgramBlock {
     public String getBlockInfo();
     public void setSeqNo(int seqNo);
     public int getSeqNo();
+    public boolean isActive();
 }

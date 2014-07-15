@@ -1,10 +1,13 @@
 package se.mxt.code.radiocontrol.servlet;
 
+import se.mxt.code.radiocontrol.ProgramChannel;
 import se.mxt.code.radiocontrol.ProgramSchedule;
 
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
+
+import static se.mxt.code.radiocontrol.OfyService.ofy;
 
 /**
  * Created by deejaybee on 7/12/14.
@@ -31,7 +34,7 @@ public class RestEndpointDispatcher {
                     MockupSchedule mockupSchedule = new MockupSchedule();
                     schedule = mockupSchedule.getSchedule();
                 } else {
-
+                    schedule = ofy().load().type(ProgramSchedule.class).id(scheduleId).now();
                 }
                 if (schedule == null) {
                     throw new ServletException("No schedule with ID '" + scheduleId + "' was found");
@@ -39,6 +42,27 @@ public class RestEndpointDispatcher {
                 resp.setStatus(200);
                 resp.setContentType("application/json");
                 resp.getWriter().write(schedule.toJson());
+            }
+        } else if(request.getResourceType().equals("channel")) {
+            Integer channelId = request.getId();
+
+            if (channelId == null) {
+                // Get a list of channels)
+            } else {
+                ProgramChannel channel = null;
+                if (channelId == 0) {
+                    // Mockup for test
+                    MockupChannel mockupChannel = new MockupChannel();
+                    channel = mockupChannel.getChannel();
+                } else {
+
+                }
+                if (channel == null) {
+                    throw new ServletException("No channel with ID '" + channelId + "' was found");
+                }
+                resp.setStatus(200);
+                resp.setContentType("application/json");
+                resp.getWriter().write(channel.toJson());
             }
 
         } else {

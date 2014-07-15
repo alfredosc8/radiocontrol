@@ -11,10 +11,13 @@ import java.util.Collection;
 public class ProgramChannel {
     private String channelTitle;
     private PlaylistPlayer player;
+    private String streamURL;
+    private String imageURL;
 
-    public ProgramChannel(String channelTitle, PlaylistPlayer player) {
+    public ProgramChannel(String channelTitle, PlaylistPlayer player, String streamURL) {
         this.channelTitle = channelTitle;
         this.player = player;
+        this.streamURL = streamURL;
     }
 
     public PlaylistPlayer getPlayer() {
@@ -23,8 +26,18 @@ public class ProgramChannel {
 
     public String getChannelTitle() { return channelTitle; }
 
+    public void setImageURL(String imageURL) {
+        this.imageURL = imageURL;
+    }
+
     public JsonObject asJsonObject() {
         return Json.createObjectBuilder()
-                .add("title", channelTitle).build();
+                .add("title", channelTitle)
+                .add("image", imageURL)
+                .add("stream", streamURL).build();
+    }
+
+    public String toJson() {
+        return asJsonObject().toString();
     }
 }

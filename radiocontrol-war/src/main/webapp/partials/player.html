@@ -1,0 +1,29 @@
+<div ng-controller="ChannelCtrl" id="main-container" class="fullscreen-container"
+     style="background-image:url('{{channel.image}}')">
+    <div class="overlay"></div>
+
+    <div class="center-back">
+        <span class="center-back-container">
+            <div class="text-center text-uppercase channel-title">
+                <h1>{{channel ? channel.title : 'Invalid channel'}}</h1>
+            </div>
+
+            <div ng-if="channel" id="audioplayer">
+                <audio media-player="radioplayer1" data-playlist="playlist1">
+                    <source/>
+                </audio>
+                <button type="button"
+                        ng-class="{true: 'btn btn-success btn-lg active', false: 'btn btn-default btn-lg'}[radioplayer1.playing]"
+                        ng-click="radioplayer1.playPause()">{{radioplayer1.playing ? 'Pause' : 'Listen'}}</button>
+                <button type="button"
+                        class="btn btn-default btn-lg"
+                        ng-class="{true: 'btn btn-default btn-lg active', false: 'btn btn-default btn-lg'}[radioplayer1.muted]"
+                        ng-click="radioplayer1.toggleMute()">{{radioplayer1.muted ? 'Unmute' : 'Mute'}}</button>
+            </div>
+            <div ng-if="!channel">
+                <p class="text-warning">Maybe you entered the wrong address?</p>
+            </div>
+        </span>
+    </div>
+    <div id="listeners"></div>
+</div>

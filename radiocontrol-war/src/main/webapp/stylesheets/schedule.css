@@ -1,43 +1,33 @@
-.block {
-    border: 1px solid;
-    margin: 2px 2px 2px 2px;
+.schedule-row {
+    margin: 3px 3px 3px 3px;
 }
 
 .block-live {
-    background-color: #aaaaaa;
+    background-color: #428bca;
+    color: #fff;
 }
 
 .block-music {
-    background-color: yellow;
-}
-
-.block-start {
-    background-color: red;
-}
-
-.block-end {
-    background-color: red;
+    background-color: #5bc0de;
+    cursor: n-resize;
 }
 
 .block-fill {
-    background-color: white;
+    background-color: #f0ad4e;
 }
 
-table {
-    width: 100%;
+.block-start, .block-end {
+    background-color: #d9534f;
+    color: #fff;
 }
 
-td.blocktype {
-    text-transform: uppercase;
-    width: 20%;
-    margin: 5px 5px 5px 5px;
+.active-true {
+    background-color: #5cb85c;
+    color: #fff;
+    font-size: large;
+    border: 2px 2px 2px 2px solid;
 }
 
-td.blockdesc {
-    margin: 5px 5px 5px 5px;
+.active-false {
 }
 
-td.blocktime {
-    width: 20%;
-    margin: 5px 5px 5px 5px;
-}

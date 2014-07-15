@@ -10,6 +10,7 @@ public class MusicBlock implements ProgramBlock {
     private String blockInfo;
     private String playlistName = "NO PLAYLIST SPECIFIED";
     private int seqNo;
+    private boolean active = false;
 
     public MusicBlock(PlaylistPlayer player, int startOffset) {
         this.startOffset = startOffset;
@@ -72,6 +73,21 @@ public class MusicBlock implements ProgramBlock {
     @Override
     public int getSeqNo() {
         return this.seqNo;
+    }
+
+    @Override
+    public boolean isActive() {
+        return active;
+    }
+
+    @Override
+    public void take() {
+        active = true;
+    }
+
+    @Override
+    public void untake() {
+        active = false;
     }
 
 }
