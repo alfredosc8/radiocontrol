@@ -46,7 +46,7 @@ public class ProgramChannel {
                 .add("id", (channelID != null) ? channelID : 0)
                 .add("title", channelTitle)
                 .add("image", (imageURL != null) ? imageURL : "")
-                .add("stream", streamURL).build();
+                .add("stream", (streamURL != null) ? streamURL : "").build();
     }
 
     public String toJson() {
@@ -56,8 +56,11 @@ public class ProgramChannel {
     public static ProgramChannel fromJson(String jsonString) {
         JsonReader jsonReader = Json.createReader(new StringReader(jsonString));
         JsonObject obj = jsonReader.readObject();
+        jsonReader.close();
 
-        ProgramChannel channel = new ProgramChannel(obj.getString("title"), obj.getString("stream"));
+        ProgramChannel channel = new ProgramChannel(
+                obj.containsKey("title") ? obj.getString("title") : "",
+                obj.containsKey("stream") ? obj.getString("stream") : "");
         if (obj.getString("image") != null) {
             channel.setImageURL(obj.getString("image"));
         }

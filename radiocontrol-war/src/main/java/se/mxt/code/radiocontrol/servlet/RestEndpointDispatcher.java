@@ -105,6 +105,7 @@ public class RestEndpointDispatcher {
         String body = request.readBody();
 
         if (request.getResourceType().equals("channel")) {
+            System.out.println("BODY: " + body);
             ProgramChannel channel = ProgramChannel.fromJson(body);
             Result<Key<ProgramChannel>> result = ofy().save().entity(channel);
             result.now();
