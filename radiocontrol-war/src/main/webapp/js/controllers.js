@@ -38,7 +38,7 @@ radiocontrolAppControllers.controller('ListChannelCtrl', ['$scope', '$routeParam
 ]);
 
 radiocontrolAppControllers.controller('NewChannelCtrl', ['$scope', '$location', 'Channel',
-    function($scope, $location, Channel) {
+    function($scope, $location, Channel, ImageStore) {
         $scope.submit = function() {
             postData = {
                 'title': $scope.title,
@@ -48,4 +48,5 @@ radiocontrolAppControllers.controller('NewChannelCtrl', ['$scope', '$location', 
                 $location.path('/channel');
             })
         };
-}]);
+    }
+]);

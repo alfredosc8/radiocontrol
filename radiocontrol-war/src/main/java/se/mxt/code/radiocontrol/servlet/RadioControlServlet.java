@@ -20,7 +20,7 @@ public class RadioControlServlet extends HttpServlet {
     public void doGet(HttpServletRequest req, HttpServletResponse resp)
             throws IOException {
         try {
-            System.out.println("in doGet");
+            System.out.println("API doGet: " + req.getPathInfo());
             RestRequest resourceValues = new RestRequest("GET", req.getPathInfo(), req.getReader());
             if (req.getParameter("cursor") != null) {
                 resourceValues.setCursorParam(req.getParameter("cursor"));
@@ -37,7 +37,7 @@ public class RadioControlServlet extends HttpServlet {
     @Override
     public void doPost(HttpServletRequest req, HttpServletResponse resp) throws IOException {
         try {
-            System.out.println("in doPost");
+            System.out.println("API doPost: " + req.getPathInfo());
             RestRequest resourceValues = new RestRequest("POST", req.getPathInfo(), req.getReader());
             RestEndpointDispatcher dispatcher = new RestEndpointDispatcher(resourceValues, resp);
             dispatcher.dispatch();
@@ -52,7 +52,7 @@ public class RadioControlServlet extends HttpServlet {
     @Override
     public void doDelete(HttpServletRequest req, HttpServletResponse resp) throws IOException {
         try {
-            System.out.println("in doDelete");
+            System.out.println("API doDelete");
             RestRequest resourceValues = new RestRequest("DELETE", req.getPathInfo(), req.getReader());
             RestEndpointDispatcher dispatcher = new RestEndpointDispatcher(resourceValues, resp);
             dispatcher.dispatch();

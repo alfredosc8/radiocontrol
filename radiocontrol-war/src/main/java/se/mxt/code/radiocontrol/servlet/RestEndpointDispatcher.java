@@ -9,15 +9,11 @@ import se.mxt.code.radiocontrol.ProgramChannel;
 import se.mxt.code.radiocontrol.ProgramSchedule;
 
 import javax.json.Json;
-import javax.json.JsonArray;
 import javax.json.JsonArrayBuilder;
 import javax.json.JsonObject;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletResponse;
-import java.io.BufferedReader;
 import java.io.IOException;
-import java.io.StringReader;
-import java.util.logging.Logger;
 
 import static se.mxt.code.radiocontrol.OfyService.ofy;
 
@@ -44,8 +40,8 @@ public class RestEndpointDispatcher {
                 ProgramSchedule schedule = null;
                 if (scheduleId == 0) {
                     // Mockup for test
-                    MockupSchedule mockupSchedule = new MockupSchedule();
-                    schedule = mockupSchedule.getSchedule();
+                    // MockupSchedule mockupSchedule = new MockupSchedule();
+                    // schedule = mockupSchedule.getSchedule();
                 } else {
 
                 }
@@ -70,7 +66,7 @@ public class RestEndpointDispatcher {
                 JsonArrayBuilder jsonArrayBuilder = Json.createArrayBuilder();
                 // Include the mockup for fun...
                 jsonArrayBuilder.add(new MockupChannel().getChannel().asJsonObject());
-                while(iterator.hasNext()) {
+                while (iterator.hasNext()) {
                     ProgramChannel channel = iterator.next();
                     jsonArrayBuilder.add(channel.asJsonObject());
                     cont = true;
@@ -98,7 +94,6 @@ public class RestEndpointDispatcher {
                 resp.setContentType("application/json");
                 resp.getWriter().write(channel.toJson());
             }
-
         } else {
             throw new ServletException("Invalid resource '" + request.getResourceType() + "'");
         }
@@ -110,7 +105,6 @@ public class RestEndpointDispatcher {
         String body = request.readBody();
 
         if (request.getResourceType().equals("channel")) {
-//            System.out.println("BODY: " + body);
             ProgramChannel channel = ProgramChannel.fromJson(body);
             Result<Key<ProgramChannel>> result = ofy().save().entity(channel);
             result.now();
@@ -124,7 +118,6 @@ public class RestEndpointDispatcher {
     public void dispatchDELETE() {
         if (request.getResourceType().equals("channel")) {
             Long channelId = request.getId();
-            System.out.println("DELETING channel " + channelId);
             if (channelId != 0) {
                 ofy().delete().type(ProgramChannel.class).id(channelId).now();
             }
@@ -134,7 +127,6 @@ public class RestEndpointDispatcher {
 
     public void dispatch() throws IOException {
         try {
-            System.out.println(request.getAction());
             if (request.getAction().equals("GET")) {
                 dispatchGET();
             } else if(request.getAction().equals("POST")) {

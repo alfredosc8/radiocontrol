@@ -4,10 +4,9 @@ import com.google.appengine.repackaged.org.joda.time.DateTime;
 import com.google.appengine.repackaged.org.joda.time.format.DateTimeFormat;
 import com.google.appengine.repackaged.org.joda.time.format.DateTimeFormatter;
 
-import com.googlecode.objectify.annotation.Entity;
-import com.googlecode.objectify.annotation.Id;
-import com.googlecode.objectify.annotation.Index;
-import com.googlecode.objectify.annotation.Load;
+import com.googlecode.objectify.Key;
+import com.googlecode.objectify.Ref;
+import com.googlecode.objectify.annotation.*;
 
 import javax.json.*;
 import java.util.ArrayList;
@@ -18,11 +17,11 @@ import java.util.List;
  */
 @Entity
 public class ProgramSchedule {
-    @Id private Long id;
-    private DateTime scheduleStart;
-    private DateTime scheduleEnd;
-    private ProgramChannel channel;
-    private List<ProgramBlock> programBlocks;
+    @Id Long id;
+    DateTime scheduleStart;
+    DateTime scheduleEnd;
+    @Parent Ref<ProgramChannel> parentChannel;
+    List<ProgramBlock> programBlocks = new ArrayList<ProgramBlock>();
 
     public static String format(DateTime time) {
         return time.toString("HH:mm:ss");
@@ -32,9 +31,10 @@ public class ProgramSchedule {
         return time.toString("YYYY-MM-dd HH:mm:ss");
     }
 
+    private ProgramSchedule() {}
+
     public ProgramSchedule(DateTime start, DateTime end, ProgramChannel channel) {
-        programBlocks = new ArrayList<ProgramBlock>();
-        this.channel = channel;
+        this.parentChannel = Ref.create(channel);
         this.scheduleStart = start;
         this.scheduleEnd = end;
     }
@@ -48,7 +48,7 @@ public class ProgramSchedule {
     }
 
     public ProgramChannel getChannel() {
-        return channel;
+        return parentChannel.get();
     }
 
 
@@ -87,7 +87,7 @@ public class ProgramSchedule {
         }
 
         return Json.createObjectBuilder()
-            .add("channel", channel.asJsonObject())
+            .add("channel", parentChannel.get().asJsonObject())
             .add("rows", jsonRowsBuilder.build())
             .add("start", ProgramSchedule.formatDate(scheduleStart))
             .add("end", ProgramSchedule.formatDate(scheduleEnd)).build();

@@ -13,3 +13,11 @@ radiocontrolAppServices.factory('Channel', ['$resource',
       query: { method:'GET', params: { channelId: 'channel' } }
     });
   }]);
+
+  radiocontrolAppServices.factory('ImageStore', ['$resource',
+    function($resource) {
+        return $resource('api/v1/imagestore', {}, {
+            query: { method: 'GET', params: {} }
+        });
+    }
+  ]);
