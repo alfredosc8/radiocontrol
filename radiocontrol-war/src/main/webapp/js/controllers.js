@@ -42,7 +42,8 @@ radiocontrolAppControllers.controller('NewChannelCtrl', ['$scope', '$location', 
         $scope.submit = function() {
             postData = {
                 'title': $scope.title,
-                'stream': $scope.stream
+                'stream': $scope.stream,
+                'image': $scope.image
             }
             Channel.save({}, postData).$promise.then(function(result) {
                 $location.path('/channel');

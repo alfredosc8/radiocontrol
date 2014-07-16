@@ -58,6 +58,9 @@ public class ProgramChannel {
         JsonObject obj = jsonReader.readObject();
 
         ProgramChannel channel = new ProgramChannel(obj.getString("title"), obj.getString("stream"));
+        if (obj.getString("image") != null) {
+            channel.setImageURL(obj.getString("image"));
+        }
         return channel;
     }
 }
