@@ -13,3 +13,13 @@ Run a local appengine devserver
     $ mvn appengine:devserver
     
     
+Testing
+-------
+
+To start Jasmine spec runner
+
+    $ mvn jasmine:bdd
+    
+    
+Then open a web browser to http://localhost:8234 and keep it open. It scans the spec/ directory where you have the
+unit tests and run as soon as a source file in js/ directory is modified.
