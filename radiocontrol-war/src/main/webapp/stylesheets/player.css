@@ -63,3 +63,8 @@
     position:relative;
     z-index:9999;
 }
+
+.onoff {
+    width: 80px;
+    height: 80px;
+}
