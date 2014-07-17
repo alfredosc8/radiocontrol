@@ -58,14 +58,6 @@ radiocontrolAppControllers.controller('NewChannelCtrl', ['$scope', '$location', 
     }
 ]);
 
-radiocontrolAppControllers.controller('ManageCtrl', ['$scope', '$location',
-    function($scope, $location) {
-        $scope.navChannel = function() {
-            $location.path('/channel/');
-        };
-    }
-]);
-
 radiocontrolAppControllers.controller('NavbarCtrl', ['$scope', '$location',
     function($scope, $location) {
         $scope.navChannels = function() {

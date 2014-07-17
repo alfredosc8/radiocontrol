@@ -27,8 +27,7 @@ radiocontrolApp.config(['$routeProvider',
                 controller: 'ChannelCtrl'
             }).
             when('/manage', {
-                templateUrl: 'partials/manage.html',
-                controller: 'ManageCtrl'
+                templateUrl: 'partials/manage.html'
             }).
             otherwise({
                 redirectTo: '/radioplayer/0'
