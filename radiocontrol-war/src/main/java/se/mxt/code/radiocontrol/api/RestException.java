@@ -1,4 +1,4 @@
-package se.mxt.code.radiocontrol.servlet;
+package se.mxt.code.radiocontrol.api;
 
 import javax.servlet.ServletException;
 

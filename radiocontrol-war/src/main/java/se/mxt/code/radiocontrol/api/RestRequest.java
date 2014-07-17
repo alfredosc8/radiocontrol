@@ -1,9 +1,9 @@
-package se.mxt.code.radiocontrol.servlet;
+package se.mxt.code.radiocontrol.api;
 
 import javax.servlet.ServletException;
-import javax.servlet.http.HttpServletRequest;
 import java.io.BufferedReader;
 import java.io.IOException;
+import java.util.Map;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
@@ -18,28 +18,46 @@ public class RestRequest {
     private String action;
     private BufferedReader bodyReader;
     private String cursorParam;
+    private static String[] validResourceTypes = { "schedule", "channel" };
 
     public RestRequest(String action, String pathInfo, BufferedReader bodyReader) throws ServletException {
-        // regex parse pathInfo
-        Matcher matcher;
         this.action = action;
         this.bodyReader = bodyReader;
+
+        // regex parse pathInfo
+        Matcher matcher;
 
         // Check for ID case first, since the All pattern would also match
         matcher = patternResourceById.matcher(pathInfo);
         if (matcher.matches()) {
             resourceType = matcher.group(1);
             id = Long.parseLong(matcher.group(2));
+
+            if (!isValidResource(resourceType)) {
+                throw new RestException(404, resourceType + "is not a valid resource");
+            }
             return;
         }
 
         matcher = patternAllResources.matcher(pathInfo);
         if (matcher.matches()) {
             resourceType = matcher.group(1);
+            if (!isValidResource(resourceType)) {
+                throw new RestException(404, resourceType + "is not a valid resource");
+            }
             return;
         }
 
         throw new ServletException("Invalid URI");
+    }
+
+    private boolean isValidResource(String resourceType) {
+        for(String valid : validResourceTypes) {
+            if (resourceType.equals(valid)) {
+                return true;
+            }
+        }
+        return false;
     }
 
     public Long getId() {

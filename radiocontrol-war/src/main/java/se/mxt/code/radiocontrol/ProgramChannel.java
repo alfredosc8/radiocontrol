@@ -4,15 +4,12 @@ import com.googlecode.objectify.annotation.Entity;
 import com.googlecode.objectify.annotation.Id;
 import com.googlecode.objectify.annotation.Index;
 
-import org.bff.javampd.Playlist;
-import se.mxt.code.radiocontrol.servlet.RestResource;
+import se.mxt.code.radiocontrol.api.RestResource;
 
 import javax.json.Json;
 import javax.json.JsonObject;
-import javax.json.JsonObjectBuilder;
 import javax.json.JsonReader;
 import java.io.StringReader;
-import java.util.Collection;
 
 /**
  * Created by deejaybee on 7/11/14.
@@ -52,6 +49,12 @@ public class ProgramChannel implements RestResource {
                 .add("stream", (streamURL != null) ? streamURL : "").build();
     }
 
+    public static ProgramChannel buildFromJson(String jsonString) {
+        ProgramChannel channel = new ProgramChannel();
+        channel.fromJson(jsonString);
+        return channel;
+    }
+
     @Override
     public String toJson() {
         return asJsonObject().toString();
@@ -68,9 +71,9 @@ public class ProgramChannel implements RestResource {
         imageURL = obj.containsKey("image") ? obj.getString("image") : "";
     }
 
-    public static ProgramChannel buildFromJson(String jsonString) {
-        ProgramChannel channel = new ProgramChannel();
-        channel.fromJson(jsonString);
-        return channel;
+    @Override
+    public String resourceIdentifier() {
+        return "channel";
     }
+
 }

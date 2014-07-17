@@ -1,4 +1,4 @@
-package se.mxt.code.radiocontrol.servlet;
+package se.mxt.code.radiocontrol.api;
 
 import com.google.appengine.api.datastore.Cursor;
 import com.google.appengine.api.datastore.QueryResultIterator;
@@ -9,11 +9,11 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import se.mxt.code.radiocontrol.ProgramChannel;
 import se.mxt.code.radiocontrol.ProgramSchedule;
+import se.mxt.code.radiocontrol.mockups.MockupChannel;
 
 import javax.json.Json;
 import javax.json.JsonArrayBuilder;
 import javax.json.JsonObject;
-import javax.servlet.Servlet;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
@@ -23,13 +23,13 @@ import static se.mxt.code.radiocontrol.OfyService.ofy;
 /**
  * Created by deejaybee on 7/12/14.
  */
-public class RestEndpointDispatcher {
-    private final static Logger LOG = LoggerFactory.getLogger(RestEndpointDispatcher.class);
+public class Dispatcher {
+    private final static Logger LOG = LoggerFactory.getLogger(Dispatcher.class);
     private RestRequest request;
     private HttpServletResponse resp;
     int page;
 
-    public RestEndpointDispatcher(RestRequest request, HttpServletResponse resp) {
+    public Dispatcher(RestRequest request, HttpServletResponse resp) {
         this.request = request;
         this.resp = resp;
     }

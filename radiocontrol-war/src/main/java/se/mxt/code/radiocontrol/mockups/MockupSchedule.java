@@ -1,4 +1,4 @@
-package se.mxt.code.radiocontrol.servlet;
+package se.mxt.code.radiocontrol.mockups;
 
 import com.google.appengine.repackaged.org.joda.time.DateTime;
 import se.mxt.code.radiocontrol.*;

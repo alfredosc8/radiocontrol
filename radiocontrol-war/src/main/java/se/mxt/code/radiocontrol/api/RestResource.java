@@ -1,4 +1,4 @@
-package se.mxt.code.radiocontrol.servlet;
+package se.mxt.code.radiocontrol.api;
 
 /**
  * Created by deejaybee on 7/17/14.
@@ -6,4 +6,5 @@ package se.mxt.code.radiocontrol.servlet;
 public interface RestResource {
     public String toJson();
     public void fromJson(String jsonString);
+    public String resourceIdentifier();
 }

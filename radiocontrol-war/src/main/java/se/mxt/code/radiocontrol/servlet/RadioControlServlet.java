@@ -2,12 +2,10 @@ package se.mxt.code.radiocontrol.servlet;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import se.mxt.code.radiocontrol.api.Dispatcher;
+import se.mxt.code.radiocontrol.api.RestRequest;
 
-import java.io.BufferedReader;
 import java.io.IOException;
-import java.util.Properties;
-import java.util.regex.Matcher;
-import java.util.regex.Pattern;
 
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
@@ -29,7 +27,7 @@ public class RadioControlServlet extends HttpServlet {
             if (req.getParameter("cursor") != null) {
                 resourceValues.setCursorParam(req.getParameter("cursor"));
             }
-            RestEndpointDispatcher dispatcher = new RestEndpointDispatcher(resourceValues, resp);
+            Dispatcher dispatcher = new Dispatcher(resourceValues, resp);
             dispatcher.dispatch();
         } catch (ServletException e) {
             resp.setStatus(400);
@@ -43,7 +41,7 @@ public class RadioControlServlet extends HttpServlet {
         try {
             LOG.debug("API doPost: " + req.getPathInfo());
             RestRequest resourceValues = new RestRequest("POST", req.getPathInfo(), req.getReader());
-            RestEndpointDispatcher dispatcher = new RestEndpointDispatcher(resourceValues, resp);
+            Dispatcher dispatcher = new Dispatcher(resourceValues, resp);
             dispatcher.dispatch();
         } catch(ServletException e) {
             resp.setStatus(400);
@@ -58,7 +56,7 @@ public class RadioControlServlet extends HttpServlet {
         try {
             LOG.debug("API doPut: " + req.getPathInfo());
             RestRequest resourceValues = new RestRequest("PUT", req.getPathInfo(), req.getReader());
-            RestEndpointDispatcher dispatcher = new RestEndpointDispatcher(resourceValues, resp);
+            Dispatcher dispatcher = new Dispatcher(resourceValues, resp);
             dispatcher.dispatch();
         } catch(ServletException e) {
             resp.setStatus(400);
@@ -72,7 +70,7 @@ public class RadioControlServlet extends HttpServlet {
         try {
             LOG.debug("API doDelete: " + req.getPathInfo());
             RestRequest resourceValues = new RestRequest("DELETE", req.getPathInfo(), req.getReader());
-            RestEndpointDispatcher dispatcher = new RestEndpointDispatcher(resourceValues, resp);
+            Dispatcher dispatcher = new Dispatcher(resourceValues, resp);
             dispatcher.dispatch();
         } catch(ServletException e) {
             resp.setStatus(400);

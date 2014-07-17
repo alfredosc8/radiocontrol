@@ -1,4 +1,4 @@
-package se.mxt.code.radiocontrol.servlet;
+package se.mxt.code.radiocontrol.mockups;
 
 import se.mxt.code.radiocontrol.MPDPlaylistPlayer;
 import se.mxt.code.radiocontrol.PlaylistPlayer;
