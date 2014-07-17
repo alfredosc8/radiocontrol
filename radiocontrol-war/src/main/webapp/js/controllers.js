@@ -25,9 +25,6 @@ radiocontrolAppControllers.controller('ListChannelCtrl', ['$scope', '$routeParam
         $scope.newchannel = function() {
             $location.path('/channel/new');
         };
-        $scope.navMain = function() {
-            $location.path('/manage');
-        };
         $scope.deletechannel = function(idx, channelId) {
             if (channelId > 0) {
                 Channel.delete({channelId: channelId});
@@ -68,3 +65,13 @@ radiocontrolAppControllers.controller('ManageCtrl', ['$scope', '$location',
         };
     }
 ]);
+
+radiocontrolAppControllers.controller('NavbarCtrl', ['$scope', '$location',
+    function($scope, $location) {
+        $scope.navChannels = function() {
+            $location.path('/channel/');
+        };
+        $scope.navHome = function() {
+            $location.path('/manage/');
+        };
+}]);
