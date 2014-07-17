@@ -33,14 +33,16 @@ public class ProgramChannel implements RestResource {
     }
 
     public String getChannelTitle() { return channelTitle; }
-
-    public long getChannelID() {
-        return channelID;
+    public long getChannelID() { return channelID; }
+    public String getStreamURL() { return streamURL; }
+    public String getImageURL() {
+        return imageURL;
     }
 
     public void setImageURL(String imageURL) {
         this.imageURL = imageURL;
     }
+
 
     public JsonObject asJsonObject() {
         return Json.createObjectBuilder()

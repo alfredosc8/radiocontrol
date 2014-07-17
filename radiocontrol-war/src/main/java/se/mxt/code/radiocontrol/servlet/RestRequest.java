@@ -12,7 +12,7 @@ import java.util.regex.Pattern;
  */
 public class RestRequest {
     private Pattern patternAllResources = Pattern.compile("/(\\w+)");
-    private Pattern patternResourceById = Pattern.compile("/(\\w+)/([0-9]*)");
+    private Pattern patternResourceById = Pattern.compile("/(\\w+)/([0-9]*?)");
     private Long id;
     private String resourceType;
     private String action;
@@ -27,14 +27,14 @@ public class RestRequest {
 
         // Check for ID case first, since the All pattern would also match
         matcher = patternResourceById.matcher(pathInfo);
-        if (matcher.find()) {
+        if (matcher.matches()) {
             resourceType = matcher.group(1);
             id = Long.parseLong(matcher.group(2));
             return;
         }
 
         matcher = patternAllResources.matcher(pathInfo);
-        if (matcher.find()) {
+        if (matcher.matches()) {
             resourceType = matcher.group(1);
             return;
         }
