@@ -5,6 +5,7 @@ import com.googlecode.objectify.annotation.Id;
 import com.googlecode.objectify.annotation.Index;
 
 import org.bff.javampd.Playlist;
+import se.mxt.code.radiocontrol.servlet.RestResource;
 
 import javax.json.Json;
 import javax.json.JsonObject;
@@ -18,7 +19,7 @@ import java.util.Collection;
  */
 
 @Entity
-public class ProgramChannel {
+public class ProgramChannel implements RestResource {
     @Index String channelTitle;
     String streamURL;
     String imageURL;
@@ -49,21 +50,25 @@ public class ProgramChannel {
                 .add("stream", (streamURL != null) ? streamURL : "").build();
     }
 
+    @Override
     public String toJson() {
         return asJsonObject().toString();
     }
 
-    public static ProgramChannel fromJson(String jsonString) {
+    @Override
+    public void fromJson(String jsonString) {
         JsonReader jsonReader = Json.createReader(new StringReader(jsonString));
         JsonObject obj = jsonReader.readObject();
         jsonReader.close();
 
-        ProgramChannel channel = new ProgramChannel(
-                obj.containsKey("title") ? obj.getString("title") : "",
-                obj.containsKey("stream") ? obj.getString("stream") : "");
-        if (obj.getString("image") != null) {
-            channel.setImageURL(obj.getString("image"));
-        }
+        channelTitle = obj.containsKey("title") ? obj.getString("title") : "";
+        streamURL = obj.containsKey("stream") ? obj.getString("stream") : "";
+        imageURL = obj.containsKey("image") ? obj.getString("image") : "";
+    }
+
+    public static ProgramChannel buildFromJson(String jsonString) {
+        ProgramChannel channel = new ProgramChannel();
+        channel.fromJson(jsonString);
         return channel;
     }
 }

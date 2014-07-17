@@ -5,12 +5,15 @@ import com.google.appengine.api.datastore.QueryResultIterator;
 import com.googlecode.objectify.Key;
 import com.googlecode.objectify.Result;
 import com.googlecode.objectify.cmd.Query;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import se.mxt.code.radiocontrol.ProgramChannel;
 import se.mxt.code.radiocontrol.ProgramSchedule;
 
 import javax.json.Json;
 import javax.json.JsonArrayBuilder;
 import javax.json.JsonObject;
+import javax.servlet.Servlet;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
@@ -21,6 +24,7 @@ import static se.mxt.code.radiocontrol.OfyService.ofy;
  * Created by deejaybee on 7/12/14.
  */
 public class RestEndpointDispatcher {
+    private final static Logger LOG = LoggerFactory.getLogger(RestEndpointDispatcher.class);
     private RestRequest request;
     private HttpServletResponse resp;
     int page;
@@ -46,7 +50,7 @@ public class RestEndpointDispatcher {
 
                 }
                 if (schedule == null) {
-                    throw new ServletException("No schedule with ID '" + scheduleId + "' was found");
+                    throw new RestException(404, "No schedule with ID '" + scheduleId + "' was found");
                 }
                 resp.setStatus(200);
                 resp.setContentType("application/json");
@@ -88,7 +92,7 @@ public class RestEndpointDispatcher {
                     channel = ofy().load().type(ProgramChannel.class).id(channelId).now();
                 }
                 if (channel == null) {
-                    throw new ServletException("No channel with ID '" + channelId + "' was found");
+                    throw new RestException(404, "No channel with ID '" + channelId + "' was found");
                 }
                 resp.setStatus(200);
                 resp.setContentType("application/json");
@@ -105,8 +109,8 @@ public class RestEndpointDispatcher {
         String body = request.readBody();
 
         if (request.getResourceType().equals("channel")) {
-            System.out.println("BODY: " + body);
-            ProgramChannel channel = ProgramChannel.fromJson(body);
+            LOG.debug("BODY: " + body);
+            ProgramChannel channel = ProgramChannel.buildFromJson(body);
             Result<Key<ProgramChannel>> result = ofy().save().entity(channel);
             result.now();
 
@@ -114,6 +118,35 @@ public class RestEndpointDispatcher {
             resp.setContentType("application/json");
             resp.getWriter().write(channel.toJson());
         }
+    }
+
+    public void dispatchPUT() throws ServletException, IOException {
+        String body = request.readBody();
+
+        if (request.getResourceType().equals("channel")) {
+            LOG.debug("BODY: " + body);
+            Long channelId = request.getId();
+
+            if (channelId != null) {
+                ProgramChannel channel = null;
+                if (channelId == 0) {
+                    throw new RestException(403, "Channel ID 0 cannot be updated");
+                }
+                channel = ofy().load().type(ProgramChannel.class).id(channelId).now();
+                if (channel == null) {
+                    throw new RestException(404, "No channel with ID '" + channelId + "' was found");
+                }
+                channel.fromJson(body);
+                ofy().save().entity(channel).now();
+                resp.setStatus(200);
+                resp.setContentType("application/json");
+                resp.getWriter().write(channel.toJson());
+            }
+
+        } else {
+            throw new ServletException("Invalid resource '" + request.getResourceType() + "'");
+        }
+
     }
 
     public void dispatchDELETE() {
@@ -130,11 +163,15 @@ public class RestEndpointDispatcher {
         try {
             if (request.getAction().equals("GET")) {
                 dispatchGET();
-            } else if(request.getAction().equals("POST")) {
+            } else if (request.getAction().equals("PUT")) {
+                dispatchPUT();
+            } else if (request.getAction().equals("POST")) {
                 dispatchPOST();
-            } else if(request.getAction().equals("DELETE")) {
+            } else if (request.getAction().equals("DELETE")) {
                 dispatchDELETE();
             }
+        } catch (RestException e) {
+            resp.sendError(e.getErrorcode(), e.getMessage());
         } catch (ServletException e) {
             resp.sendError(400, e.getMessage());
         }

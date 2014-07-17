@@ -1,5 +1,8 @@
 package se.mxt.code.radiocontrol.servlet;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.util.Properties;
@@ -15,12 +18,13 @@ import javax.servlet.http.HttpServletResponse;
  * Created by deejaybee on 7/11/14.
  */
 public class RadioControlServlet extends HttpServlet {
+    private final static Logger LOG = LoggerFactory.getLogger(RadioControlServlet.class);
 
     @Override
     public void doGet(HttpServletRequest req, HttpServletResponse resp)
             throws IOException {
         try {
-            System.out.println("API doGet: " + req.getPathInfo());
+            LOG.debug("API doGet: " + req.getPathInfo());
             RestRequest resourceValues = new RestRequest("GET", req.getPathInfo(), req.getReader());
             if (req.getParameter("cursor") != null) {
                 resourceValues.setCursorParam(req.getParameter("cursor"));
@@ -30,36 +34,50 @@ public class RadioControlServlet extends HttpServlet {
         } catch (ServletException e) {
             resp.setStatus(400);
             resp.resetBuffer();
-            e.printStackTrace();
+            LOG.error("Servlet Exception: ", e);
         }
     }
 
     @Override
     public void doPost(HttpServletRequest req, HttpServletResponse resp) throws IOException {
         try {
-            System.out.println("API doPost: " + req.getPathInfo());
+            LOG.debug("API doPost: " + req.getPathInfo());
             RestRequest resourceValues = new RestRequest("POST", req.getPathInfo(), req.getReader());
             RestEndpointDispatcher dispatcher = new RestEndpointDispatcher(resourceValues, resp);
             dispatcher.dispatch();
         } catch(ServletException e) {
             resp.setStatus(400);
             resp.resetBuffer();
-            e.printStackTrace();
+            LOG.error("Servlet Exception: ", e);
         }
 
     }
 
     @Override
+    public void doPut(HttpServletRequest req, HttpServletResponse resp) throws IOException {
+        try {
+            LOG.debug("API doPut: " + req.getPathInfo());
+            RestRequest resourceValues = new RestRequest("PUT", req.getPathInfo(), req.getReader());
+            RestEndpointDispatcher dispatcher = new RestEndpointDispatcher(resourceValues, resp);
+            dispatcher.dispatch();
+        } catch(ServletException e) {
+            resp.setStatus(400);
+            resp.resetBuffer();
+            LOG.error("Servlet Exception: ", e);
+        }
+    }
+
+    @Override
     public void doDelete(HttpServletRequest req, HttpServletResponse resp) throws IOException {
         try {
-            System.out.println("API doDelete");
+            LOG.debug("API doDelete: " + req.getPathInfo());
             RestRequest resourceValues = new RestRequest("DELETE", req.getPathInfo(), req.getReader());
             RestEndpointDispatcher dispatcher = new RestEndpointDispatcher(resourceValues, resp);
             dispatcher.dispatch();
         } catch(ServletException e) {
             resp.setStatus(400);
             resp.resetBuffer();
-            e.printStackTrace();
+            LOG.error("Servlet Exception: ", e);
         }
     }
 }
