@@ -4,16 +4,12 @@ var radiocontrolApp = angular.module('radiocontrolApp', [
     'mediaPlayer',
     'flow',
     'radiocontrolAppControllers',
-    'radiocontrolAppServices'
+    'radiocontrolAppServices',
 ]);
 
 radiocontrolApp.config(['$routeProvider',
     function($routeProvider) {
         $routeProvider.
-            when('/schedule/:scheduleId', {
-                templateUrl: 'partials/schedule.html',
-                controller: 'ScheduleCtrl'
-            }).
             when('/channel/', {
                 templateUrl: 'partials/list-channel.html',
                 controller: 'ListChannelCtrl'
@@ -29,6 +25,10 @@ radiocontrolApp.config(['$routeProvider',
             when('/radioplayer/:channelId', {
                 templateUrl: 'partials/player.html',
                 controller: 'ChannelCtrl'
+            }).
+            when('/manage', {
+                templateUrl: 'partials/manage.html',
+                controller: 'ManageCtrl'
             }).
             otherwise({
                 redirectTo: '/radioplayer/0'

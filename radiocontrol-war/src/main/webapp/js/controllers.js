@@ -8,8 +8,11 @@ radiocontrolAppControllers.controller('ScheduleCtrl', ['$scope', '$routeParams',
     }
 ]);
 
-radiocontrolAppControllers.controller('ChannelCtrl', ['$scope', '$routeParams', 'Channel',
-    function($scope, $routeParams, Channel) {
+radiocontrolAppControllers.controller('ChannelCtrl', ['$scope', '$routeParams', '$location', 'Channel',
+    function($scope, $routeParams, $location, Channel) {
+        $scope.navManager = function() {
+            $location.path('/manage');
+        }
         Channel.get({channelId: $routeParams.channelId}, function(data) {
             $scope.channel = data;
             $scope.playlist1 = [{ src: data.stream, type: 'audio/mp3' }];
@@ -21,6 +24,9 @@ radiocontrolAppControllers.controller('ListChannelCtrl', ['$scope', '$routeParam
     function($scope, $routeParams, $location, Channel) {
         $scope.newchannel = function() {
             $location.path('/channel/new');
+        };
+        $scope.navMain = function() {
+            $location.path('/manage');
         };
         $scope.deletechannel = function(idx, channelId) {
             if (channelId > 0) {
@@ -37,8 +43,8 @@ radiocontrolAppControllers.controller('ListChannelCtrl', ['$scope', '$routeParam
     }
 ]);
 
-radiocontrolAppControllers.controller('NewChannelCtrl', ['$scope', '$location', 'Channel',
-    function($scope, $location, Channel, ImageStore) {
+radiocontrolAppControllers.controller('NewChannelCtrl', ['$scope', '$location', '$window', 'Channel',
+    function($scope, $location, $window, Channel, ImageStore) {
         $scope.submit = function() {
             postData = {
                 'title': $scope.title,
@@ -48,6 +54,17 @@ radiocontrolAppControllers.controller('NewChannelCtrl', ['$scope', '$location', 
             Channel.save({}, postData).$promise.then(function(result) {
                 $location.path('/channel');
             })
+        };
+        $scope.cancel = function() {
+            $window.history.back();
+        };
+    }
+]);
+
+radiocontrolAppControllers.controller('ManageCtrl', ['$scope', '$location',
+    function($scope, $location) {
+        $scope.navChannel = function() {
+            $location.path('/channel/');
         };
     }
 ]);
