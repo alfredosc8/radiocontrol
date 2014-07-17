@@ -15,8 +15,8 @@ import javax.servlet.http.HttpServletResponse;
 /**
  * Created by deejaybee on 7/11/14.
  */
-public class RadioControlServlet extends HttpServlet {
-    private final static Logger LOG = LoggerFactory.getLogger(RadioControlServlet.class);
+public class APIServlet extends HttpServlet {
+    private final static Logger LOG = LoggerFactory.getLogger(APIServlet.class);
 
     @Override
     public void doGet(HttpServletRequest req, HttpServletResponse resp)

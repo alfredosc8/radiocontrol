@@ -2,15 +2,15 @@
 
 <web-app xmlns="http://java.sun.com/xml/ns/javaee" version="2.5">
     <servlet>
-        <servlet-name>radiocontrol</servlet-name>
-        <servlet-class>se.mxt.code.radiocontrol.servlet.RadioControlServlet</servlet-class>
+        <servlet-name>api</servlet-name>
+        <servlet-class>se.mxt.code.radiocontrol.servlet.APIServlet</servlet-class>
     </servlet>
     <servlet>
         <servlet-name>imagestore</servlet-name>
         <servlet-class>se.mxt.code.radiocontrol.servlet.ImageStoreServlet</servlet-class>
     </servlet>
     <servlet-mapping>
-        <servlet-name>radiocontrol</servlet-name>
+        <servlet-name>api</servlet-name>
         <url-pattern>/api/v1/*</url-pattern>
     </servlet-mapping>
     <servlet-mapping>
