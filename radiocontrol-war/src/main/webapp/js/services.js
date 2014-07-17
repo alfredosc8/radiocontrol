@@ -22,3 +22,4 @@ radiocontrolAppServices.factory('Channel', ['$resource',
         });
     }
   ]);
+
