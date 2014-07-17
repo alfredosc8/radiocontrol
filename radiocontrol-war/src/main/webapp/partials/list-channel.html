@@ -15,8 +15,14 @@
                 <th></th>
             </tr>
             <tr ng-repeat="channel in channels">
-                <td><a href="#" editable-text="channel.title">{{channel.title || "empty" }}</a></td>
-                <td><a href="#" editable-text="channel.stream">{{channel.stream}}</a></td>
+                <td><a href="#"
+                       editable-text="channel.title"
+                       e-required e-placeholder="Name of your channel"
+                       onaftersave="updatechannel(channel)">{{channel.title || "empty" }}</a></td>
+                <td><a href="#"
+                       editable-url="channel.stream"
+                       e-placeholder="URL to your stream"
+                       onaftersave="updatechannel(channel)">{{channel.stream || "empty" }}</a></td>
                 <td><img class="poster-preview-thumb" ng-src="{{channel.image}}"></td>
                 <td>
                     <button type="button" class="btn btn-default" ng-click="playchannel(channel.id)">View</button>

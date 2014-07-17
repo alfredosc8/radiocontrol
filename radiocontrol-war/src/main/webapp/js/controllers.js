@@ -33,7 +33,10 @@ radiocontrolAppControllers.controller('ListChannelCtrl', ['$scope', '$routeParam
         };
         $scope.playchannel = function(channelId) {
             $location.path('radioplayer/' + channelId);
-        }
+        };
+        $scope.updatechannel = function(newchannel) {
+            Channel.put({ channelId: newchannel.id }, newchannel);
+        };
         Channel.get({}, function(data) {
             $scope.channels = data.channels;
         });
