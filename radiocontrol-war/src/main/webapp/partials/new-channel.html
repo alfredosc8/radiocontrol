@@ -1,7 +1,7 @@
 <div class="container-fluid">
     <div>
         <h1 class="text-center">Create a new radio channel</h1>
-        <form ng-submit="submit()" class="form-horizontal" role="form">
+        <form ng-submit="submit()" class="form-horizontal" role="form" name="channelform">
             <div class="form-group">
                 <label for="inputChannelName" class="col-sm-2 control-label">Channel Name</label>
                 <div class="col-sm-10">
@@ -46,7 +46,7 @@
             <div class="form-group">
                 <div class="col-sm-offset-2 col-sm-10">
                     <button type="button" ng-click="cancel()" class="btn btn-default">Cancel</button>
-                    <button type="submit" class="btn btn-primary">Create</button>
+                    <button type="submit" ng-class="{true: 'btn btn-primary', false: 'btn btn-primary disabled'}[channelform.$valid]">Create</button>
                 </div>
             </div>
 
