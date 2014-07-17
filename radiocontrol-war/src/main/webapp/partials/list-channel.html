@@ -15,8 +15,8 @@
                 <th></th>
             </tr>
             <tr ng-repeat="channel in channels">
-                <td>{{channel.title}}</td>
-                <td>{{channel.stream}}</td>
+                <td><a href="#" editable-text="channel.title">{{channel.title || "empty" }}</a></td>
+                <td><a href="#" editable-text="channel.stream">{{channel.stream}}</a></td>
                 <td><img class="poster-preview-thumb" ng-src="{{channel.image}}"></td>
                 <td>
                     <button type="button" class="btn btn-default" ng-click="playchannel(channel.id)">View</button>
