@@ -18,7 +18,7 @@ public class RestRequest {
     private String action;
     private BufferedReader bodyReader;
     private String cursorParam;
-    private static String[] validResourceTypes = { "schedule", "channel" };
+    private static String[] validResourceTypes = { "schedule", "channel", "discover" };
 
     public RestRequest(String action, String pathInfo, BufferedReader bodyReader) throws ServletException {
         this.action = action;
@@ -34,7 +34,7 @@ public class RestRequest {
             id = Long.parseLong(matcher.group(2));
 
             if (!isValidResource(resourceType)) {
-                throw new RestException(404, resourceType + "is not a valid resource");
+                throw new RestException(404, resourceType + " is not a valid resource");
             }
             return;
         }
@@ -43,7 +43,7 @@ public class RestRequest {
         if (matcher.matches()) {
             resourceType = matcher.group(1);
             if (!isValidResource(resourceType)) {
-                throw new RestException(404, resourceType + "is not a valid resource");
+                throw new RestException(404, resourceType + " is not a valid resource");
             }
             return;
         }
