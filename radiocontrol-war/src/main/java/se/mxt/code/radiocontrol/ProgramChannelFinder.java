@@ -39,6 +39,11 @@ public class ProgramChannelFinder {
         return null;
     }
 
+    public ProgramChannel byChannelId(Long channelId) {
+        ProgramChannel channel = ofy().load().type(ProgramChannel.class).id(channelId).now();
+        return channel;
+    }
+
     public void refresh() {
         channelKeys.clear();
 
