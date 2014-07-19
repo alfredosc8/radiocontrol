@@ -1,5 +1,7 @@
 Discover new internet radio channels in a vintage way. This is the source code for http://play.mxt.se
 
+Make sure you check out our Wiki for more info: <https://github.com/abcduolabs/radiocontrol/wiki>
+
 Building
 --------
 
