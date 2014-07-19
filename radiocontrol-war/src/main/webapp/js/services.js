@@ -23,3 +23,9 @@ radiocontrolAppServices.factory('Channel', ['$resource',
     }
   ]);
 
+radiocontrolAppServices.factory('DiscoveryService', ['$resource',
+    function($resource) {
+        return $resource('api/v1/discover', {}, {
+            query: { method:'GET', params: {} }
+        });
+}]);

@@ -6,20 +6,21 @@
         <button type="button" class="btn btn-default btn-sm" ng-click="navManager()">I am a Radio DeeJay</button>
     </div>
 
-    <div class="center-back-outer position-zindex">
+    <div class="center-back-outer position-zindex" ng-controller="PlayerCtrl">
         <span class="center-back-inner">
             <div class="text-center text-uppercase channel-title">
-                <h1>{{channel ? channel.title : 'Invalid channel'}}</h1>
+                <h1>{{channel ? channel.title : 'Seeking'}}</h1>
             </div>
 
             <div ng-if="channel" id="audioplayer">
                 <audio media-player="radioplayer1" data-playlist="playlist1">
                     <source/>
                 </audio>
-                <a ng-click="radioplayer1.playPause()"><img class="onoff" ng-src="{{radioplayer1.playing ? '/icons/button-on.png' : '/icons/button-off.png'}}"/></a>
+                <a ng-click="radioplayer1.playPause()"><img class="btn-onoff" ng-src="{{radioplayer1.playing ? '/icons/button-on.png' : '/icons/button-off.png'}}"/></a>
+                <a ng-click="seekfwd()"><img class="btn-scan" ng-src="/icons/button-seek-fwd.png"/></a>
             </div>
             <div ng-if="!channel">
-                <p class="text-warning">Maybe you entered the wrong address?</p>
+                <p class="text-warning">Scanning the ether(net) for a new channel</p>
             </div>
         </span>
     </div>

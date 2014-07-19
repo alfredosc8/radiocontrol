@@ -61,6 +61,16 @@ radiocontrolAppControllers.controller('NewChannelCtrl', ['$scope', '$location', 
     }
 ]);
 
+radiocontrolAppControllers.controller('PlayerCtrl', ['$scope', '$location', 'DiscoveryService',
+    function($scope, $location, DiscoveryService) {
+        $scope.seekfwd = function() {
+            DiscoveryService.get({}, function(data) {
+                channelId = data.id;
+                $location.path('/radioplayer/' + channelId);
+            });
+        };
+}]);
+
 radiocontrolAppControllers.controller('NavbarCtrl', ['$scope', '$location',
     function($scope, $location) {
         $scope.navChannels = function() {
