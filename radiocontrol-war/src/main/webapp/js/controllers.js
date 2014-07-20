@@ -84,10 +84,10 @@ radiocontrolAppControllers.controller('NavbarCtrl', ['$scope', '$location',
 radiocontrolAppControllers.controller('ShareCtrl', ['$scope', '$location',
     function($scope, $location, DiscoveryService) {
         $scope.fbshare = function(channelId) {
-            FB.ui(
-            {
+            FB.ui({
                 method: 'share',
                 href: 'http://play.mxt.se/shareme.jsp?channelId=' + channelId
+            }, function(response) {
             });
         };
 }]);
