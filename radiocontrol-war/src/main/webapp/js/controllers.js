@@ -1,4 +1,4 @@
-var radiocontrolAppControllers = angular.module('radiocontrolAppControllers', ['ngDraggable', 'mediaPlayer']);
+var radiocontrolAppControllers = angular.module('radiocontrolAppControllers', ['mediaPlayer']);
 
 radiocontrolAppControllers.controller('ScheduleCtrl', ['$scope', '$routeParams', 'Schedule',
     function($scope, $routeParams, Schedule) {
@@ -10,9 +10,6 @@ radiocontrolAppControllers.controller('ScheduleCtrl', ['$scope', '$routeParams',
 
 radiocontrolAppControllers.controller('ChannelCtrl', ['$scope', '$routeParams', '$location', 'Channel',
     function($scope, $routeParams, $location, Channel) {
-        $scope.navManager = function() {
-            $location.path('/manage');
-        }
         Channel.get({channelId: $routeParams.channelId}, function(data) {
             $scope.channel = data;
             $scope.playlist1 = [{ src: data.stream, type: 'audio/mp3' }];
@@ -71,15 +68,30 @@ radiocontrolAppControllers.controller('PlayerCtrl', ['$scope', '$location', 'Dis
         };
 }]);
 
-radiocontrolAppControllers.controller('NavbarCtrl', ['$scope', '$location',
-    function($scope, $location) {
+radiocontrolAppControllers.controller('NavbarCtrl', ['$scope', '$location', '$modal',
+    function($scope, $location, $modal) {
         $scope.navChannels = function() {
             $location.path('/channel/');
         };
         $scope.navHome = function() {
             $location.path('/manage/');
         };
+        $scope.navManager = function() {
+            $location.path('/manage');
+        };
+        $scope.navAbout = function() {
+            var modalInstance = $modal.open({
+                templateUrl: 'partials/about.html',
+                controller: AboutModalCtrl
+            });
+        };
 }]);
+
+var AboutModalCtrl = function($scope, $modalInstance) {
+    $scope.ok = function() {
+        $modalInstance.dismiss('cancel');
+    };
+};
 
 radiocontrolAppControllers.controller('ShareCtrl', ['$scope', '$location',
     function($scope, $location, DiscoveryService) {

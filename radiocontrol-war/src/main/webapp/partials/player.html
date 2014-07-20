@@ -2,8 +2,19 @@
      style="background-image:url('{{channel.image}}')">
     <div class="overlay"></div>
 
-    <div class="col-md-2 col-md-offset-10">
-        <button type="button" class="btn btn-default btn-sm" ng-click="navManager()">I am a Radio DeeJay</button>
+    <div class="row" ng-controller="NavbarCtrl">
+        <div id="about-container text-center" class="col-md-2 about-container">
+            <a class="btn-about" ng-click="navAbout()"><small>About</small></a>
+        </div>
+        <div id="login-container" class="col-md-2 col-md-offset-8 login-container">
+            <div class="row">
+                <div class="col-md-12 text-center">Radio DeeJay</div>
+            </div>
+            <div class="row">
+                <div class="col-md-6 text-left text-nowrap"><a class="btn-login" ng-click="navManager()"><small>Login</small></a></div>
+                <div class="col-md-6 text-right text-nowrap"><a class="btn-signup" ng-click="navSignup()"><small>Sign up</small></a></div>
+            </div>
+        </div>
     </div>
 
     <div class="center-back-outer position-zindex" ng-controller="PlayerCtrl">
@@ -22,7 +33,7 @@
             <div ng-if="!channel">
                 <p class="text-warning">Scanning the ether(net) for a new channel</p>
             </div>
-            <div class="box-share" ng-controller="ShareCtrl">
+            <div class="share-container" ng-controller="ShareCtrl">
                 <p class="text-center">Share this channel!</p>
                 <a class="btn-share" ng-click="fbshare(channel.id)"><img src="/icons/sharefb.png"/></a>
             </div>

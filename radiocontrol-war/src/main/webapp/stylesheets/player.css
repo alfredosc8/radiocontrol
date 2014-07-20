@@ -61,7 +61,33 @@
 
 .position-zindex{
     position:relative;
-    z-index:9999;
+    z-index:1000;
+}
+
+.login-container {
+    background-color: white;
+    opacity: 0.7;
+    border: 1px solid;
+    border-radius: 5px;
+    letter-spacing: 3pt;
+}
+
+.about-container {
+    background-color: white;
+    opacity: 0.7;
+    border: 1px solid;
+    border-radius: 5px;
+    letter-spacing: 3pt;
+}
+
+.share-container {
+    height: 200px;
+    margin-top: 50px;
+    color: white;
+}
+
+.legal {
+    font-size: 10pt;
 }
 
 .btn-onoff {
@@ -80,8 +106,18 @@
     cursor: pointer;
 }
 
-.box-share {
-    height: 200px;
-    margin-top: 50px;
-    color: white;
+.btn-login {
+    cursor: pointer;
+    color: black;
 }
+
+.btn-signup {
+    cursor: pointer;
+    color: black;
+}
+
+.btn-about {
+    cursor: pointer;
+    color: black;
+}
+

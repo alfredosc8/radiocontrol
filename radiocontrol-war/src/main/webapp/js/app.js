@@ -1,9 +1,9 @@
 var radiocontrolApp = angular.module('radiocontrolApp', [
     'ngRoute',
-    'ngDraggable',
     'mediaPlayer',
     'flow',
     'xeditable',
+    'ui.bootstrap',
     'radiocontrolAppControllers',
     'radiocontrolAppServices',
 ]);
