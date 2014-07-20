@@ -22,6 +22,10 @@
             <div ng-if="!channel">
                 <p class="text-warning">Scanning the ether(net) for a new channel</p>
             </div>
+            <div class="box-share" ng-controller="ShareCtrl">
+                <p class="text-center">Share this channel!</p>
+                <a class="btn-share" ng-click="fbshare(channel.id)"><img src="/icons/sharefb.png"/></a>
+            </div>
         </span>
     </div>
     <div id="listeners"></div>

@@ -23,6 +23,19 @@
 </head>
 
 <body flow-prevent-drop>
+<div id="fb-root"></div>
+    <script>
+    window.fbAsyncInit = function() {
+        FB.init({appId: '793909473975059', status: true, cookie: true,
+        xfbml: true});
+    };
+    (function() {
+        var e = document.createElement('script'); e.async = true;
+        e.src = document.location.protocol +
+        '//connect.facebook.net/en_US/all.js';
+        document.getElementById('fb-root').appendChild(e);
+    }());
+    </script>
     <div ng-view class="container-fluid center-block"></div>
 
     <script src="/vendor/bootstrap-3.2.0/js/bootstrap.min.js"></script>
