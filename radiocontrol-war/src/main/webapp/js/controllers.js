@@ -1,5 +1,12 @@
 var radiocontrolAppControllers = angular.module('radiocontrolAppControllers', ['mediaPlayer']);
 
+radiocontrolAppControllers.controller('ApplicationCtrl', ['$scope', 'AuthService',
+    function($scope, AuthService) {
+        $scope.currentuser = AuthService.getCurrentUser();
+        $scope.authenticated = AuthService.authenticated();
+    }
+]);
+
 radiocontrolAppControllers.controller('ScheduleCtrl', ['$scope', '$routeParams', 'Schedule',
     function($scope, $routeParams, Schedule) {
         Schedule.get({scheduleId: $routeParams.scheduleId}, function(data) {
@@ -40,11 +47,12 @@ radiocontrolAppControllers.controller('ListChannelCtrl', ['$scope', '$routeParam
     }
 ]);
 
-radiocontrolAppControllers.controller('NewChannelCtrl', ['$scope', '$location', '$window', 'Channel',
-    function($scope, $location, $window, Channel, ImageStore) {
+radiocontrolAppControllers.controller('NewChannelCtrl', ['$scope', '$location', '$window', 'Channel', 'AuthService',
+    function($scope, $location, $window, Channel, AuthService) {
         $scope.submit = function() {
             postData = {
                 'title': $scope.title,
+                'ownerid': AuthService.getCurrentUser().id,
                 'stream': $scope.stream,
                 'image': $scope.image
             }

@@ -1,18 +1,33 @@
 package se.mxt.code.radiocontrol.test.unit;
 
-import org.junit.Assert;
-import org.junit.Rule;
-import org.junit.Test;
+import com.google.appengine.tools.development.testing.LocalDatastoreServiceTestConfig;
+import com.google.appengine.tools.development.testing.LocalServiceTestHelper;
+import org.junit.*;
 import org.junit.rules.ExpectedException;
 import se.mxt.code.radiocontrol.api.RestException;
 import se.mxt.code.radiocontrol.api.RestRequest;
 
 import javax.servlet.ServletException;
 
+import static se.mxt.code.radiocontrol.OfyService.ofy;
+
 /**
  * Created by deejaybee on 7/17/14.
  */
 public class RestRequestTest {
+
+    private final LocalServiceTestHelper helper =
+            new LocalServiceTestHelper(new LocalDatastoreServiceTestConfig());
+
+    @Before
+    public void setUp() {
+        helper.setUp();
+    }
+
+    @After
+    public void tearDown() {
+        helper.tearDown();
+    }
 
     @Test
     public void parseRequestString() {

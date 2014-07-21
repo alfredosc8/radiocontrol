@@ -1,4 +1,15 @@
 <div class="container-fluid">
+    <div class="row">
+        <div class="col-md-9 navbar" ng-controller="NavbarCtrl">
+            <button type="button" class="btn btn-default btn-sm" ng-click="navHome()">Home</button>
+            <button type="button" class="btn btn-default btn-sm disabled">Schedules</button>
+            <button type="button" class="btn btn-default btn-sm disabled">Account</button>
+        </div>
+        <div class="col-md-3" ng-if="authenticated">
+            <i>Hello {{currentuser.first}} {{currentuser.last}}</i>
+            <button type="button" class="btn btn-default btn-sm">Logout</button>
+        </div>
+    </div>
     <div>
         <h1 class="text-center">Create a new radio channel</h1>
         <form ng-submit="submit()" class="form-horizontal" role="form" name="channelform">

@@ -6,6 +6,7 @@ import se.mxt.code.radiocontrol.api.Dispatcher;
 import se.mxt.code.radiocontrol.api.RestRequest;
 
 import java.io.IOException;
+import java.util.Enumeration;
 
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
@@ -23,9 +24,17 @@ public class APIServlet extends HttpServlet {
             throws IOException {
         try {
             LOG.debug("API doGet: " + req.getPathInfo());
+            Enumeration params = req.getParameterNames();
+            while(params.hasMoreElements()) {
+                String p = (String)params.nextElement();
+                LOG.debug(" - " + p + "=" + req.getParameter(p));
+            }
             RestRequest resourceValues = new RestRequest("GET", req.getPathInfo(), req.getReader());
             if (req.getParameter("cursor") != null) {
                 resourceValues.setCursorParam(req.getParameter("cursor"));
+            }
+            if (req.getParameter("filter") != null && req.getParameter("filterval") != null) {
+                resourceValues.setFilterParams(req.getParameter("filter"), req.getParameter("filterval"));
             }
             Dispatcher dispatcher = new Dispatcher(resourceValues, resp);
             dispatcher.dispatch();

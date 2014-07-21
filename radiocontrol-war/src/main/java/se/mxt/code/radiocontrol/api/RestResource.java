@@ -5,6 +5,6 @@ package se.mxt.code.radiocontrol.api;
  */
 public interface RestResource {
     public String toJson();
-    public void fromJson(String jsonString);
+    public void fromJson(String jsonString) throws RestException;
     public String resourceIdentifier();
 }

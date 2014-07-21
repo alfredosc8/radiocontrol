@@ -1,16 +1,8 @@
 package se.mxt.code.radiocontrol.api;
 
-import com.google.appengine.api.datastore.Cursor;
-import com.google.appengine.api.datastore.QueryResultIterator;
-import com.googlecode.objectify.Key;
-import com.googlecode.objectify.Result;
-import com.googlecode.objectify.cmd.Query;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import se.mxt.code.radiocontrol.ProgramChannel;
-import se.mxt.code.radiocontrol.ProgramChannelFinder;
-import se.mxt.code.radiocontrol.ProgramChannelService;
-import se.mxt.code.radiocontrol.ProgramSchedule;
+import se.mxt.code.radiocontrol.*;
 import se.mxt.code.radiocontrol.mockups.MockupChannel;
 
 import javax.json.Json;
@@ -20,8 +12,7 @@ import javax.servlet.Servlet;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
-
-import static se.mxt.code.radiocontrol.OfyService.ofy;
+import java.util.List;
 
 /**
  * Created by deejaybee on 7/12/14.
@@ -64,23 +55,17 @@ public class Dispatcher {
         Long channelId = request.getId();
 
         if (channelId == null) {
-            // Get a list of channels)
-            Query<ProgramChannel> query = ofy().load().type(ProgramChannel.class).limit(1000);
-            if (request.getCursorParam() != null) {
-                query = query.startAt(Cursor.fromWebSafeString(request.getCursorParam()));
+            List<ProgramChannel> channels;
+            if (request.getFilterKey() != null && request.getFilterKey().equals("owner")) {
+                // Get a list of channels by owner
+                channels = ProgramChannelService.getAllChannelsForOwner(request.getFilterValue(), 1000, request.getCursorParam());
+            } else {
+                // Get a list of all channels)
+                channels = ProgramChannelService.getAllChannels(1000, request.getCursorParam());
             }
-            boolean cont = false;
-            QueryResultIterator<ProgramChannel> iterator = query.iterator();
             JsonArrayBuilder jsonArrayBuilder = Json.createArrayBuilder();
-            // Include the mockup for fun...
-            jsonArrayBuilder.add(new MockupChannel().getChannel().asJsonObject());
-            while (iterator.hasNext()) {
-                ProgramChannel channel = iterator.next();
+            for (ProgramChannel channel : channels) {
                 jsonArrayBuilder.add(channel.asJsonObject());
-                cont = true;
-            }
-            if (cont) {
-                // Add a link to next page in response
             }
             JsonObject jsonResponse = Json.createObjectBuilder().add("channels", jsonArrayBuilder.build()).build();
             resp.setStatus(200);
@@ -93,7 +78,7 @@ public class Dispatcher {
                 MockupChannel mockupChannel = new MockupChannel();
                 channel = mockupChannel.getChannel();
             } else {
-                channel = ofy().load().type(ProgramChannel.class).id(channelId).now();
+                channel = ProgramChannelService.getChannelById(channelId);
             }
             if (channel == null) {
                 throw new RestException(404, "No channel with ID '" + channelId + "' was found");
@@ -113,6 +98,18 @@ public class Dispatcher {
         resp.setStatus(200);
         resp.setContentType("application/json");
         resp.getWriter().write(channel.toJson());
+    }
+
+    private void handleOwner() throws ServletException, IOException {
+        List<ProgramChannelOwner> owners = ProgramChannelService.getAllOwners(1000, request.getCursorParam());
+        JsonArrayBuilder jsonArrayBuilder = Json.createArrayBuilder();
+        for (ProgramChannelOwner owner : owners) {
+            jsonArrayBuilder.add(owner.asJsonObject());
+        }
+        JsonObject jsonResponse = Json.createObjectBuilder().add("owners", jsonArrayBuilder.build()).build();
+        resp.setStatus(200);
+        resp.setContentType("application/json");
+        resp.getWriter().write(jsonResponse.toString());
     }
 
     private void dispatchGET() throws ServletException, IOException {
@@ -135,9 +132,7 @@ public class Dispatcher {
         if (request.getResourceType().equals("channel")) {
             LOG.debug("BODY: " + body);
             ProgramChannel channel = ProgramChannel.buildFromJson(body);
-            Result<Key<ProgramChannel>> result = ofy().save().entity(channel);
-            result.now();
-
+            ProgramChannelService.saveChannel(channel);
             resp.setStatus(200);
             resp.setContentType("application/json");
             resp.getWriter().write(channel.toJson());
@@ -156,12 +151,12 @@ public class Dispatcher {
                 if (channelId == 0) {
                     throw new RestException(403, "Channel ID 0 cannot be updated");
                 }
-                channel = ofy().load().type(ProgramChannel.class).id(channelId).now();
+                channel = ProgramChannelService.getChannelById(channelId);
                 if (channel == null) {
                     throw new RestException(404, "No channel with ID '" + channelId + "' was found");
                 }
                 channel.fromJson(body);
-                ofy().save().entity(channel).now();
+                ProgramChannelService.saveChannel(channel);
                 resp.setStatus(200);
                 resp.setContentType("application/json");
                 resp.getWriter().write(channel.toJson());
@@ -175,10 +170,7 @@ public class Dispatcher {
 
     public void dispatchDELETE() {
         if (request.getResourceType().equals("channel")) {
-            Long channelId = request.getId();
-            if (channelId != 0) {
-                ofy().delete().type(ProgramChannel.class).id(channelId).now();
-            }
+            ProgramChannelService.deleteChannelById(request.getId());
             resp.setStatus(200);
         }
     }

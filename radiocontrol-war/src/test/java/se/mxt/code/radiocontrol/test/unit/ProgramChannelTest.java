@@ -1,22 +1,43 @@
 package se.mxt.code.radiocontrol.test.unit;
 
 import com.google.appengine.api.files.dev.Session;
-import org.junit.Assert;
-import org.junit.Test;
+import com.google.appengine.tools.development.testing.LocalDatastoreServiceTestConfig;
+import com.google.appengine.tools.development.testing.LocalServiceTestHelper;
+import org.junit.*;
+import org.junit.rules.ExpectedException;
 import se.mxt.code.radiocontrol.ProgramChannel;
+import se.mxt.code.radiocontrol.ProgramChannelOwner;
+import se.mxt.code.radiocontrol.ProgramChannelService;
+import se.mxt.code.radiocontrol.api.RestException;
 
 import javax.json.Json;
 import javax.json.JsonObject;
 import javax.json.JsonReader;
+import javax.servlet.ServletException;
 import java.io.StringReader;
+
+import static se.mxt.code.radiocontrol.OfyService.ofy;
 
 /**
  * Created by deejaybee on 7/17/14.
  */
 public class ProgramChannelTest {
 
+    private final LocalServiceTestHelper helper =
+            new LocalServiceTestHelper(new LocalDatastoreServiceTestConfig());
+
+    @Before
+    public void setUp() {
+        helper.setUp();
+    }
+
+    @After
+    public void tearDown() {
+        helper.tearDown();
+    }
+
     @Test
-    public void createFromJson() {
+    public void createFromJson() throws RestException {
         String testJson = "{\"id\":5066549580791808,\"title\":\"Test Channel\",\"image\":\"http://upload.wikimedia.org/wikipedia/commons/0/02/NX1Z_Radio.jpg\",\"stream\":\"http://stream.test.com\"}";
 
         ProgramChannel channel = ProgramChannel.buildFromJson(testJson);

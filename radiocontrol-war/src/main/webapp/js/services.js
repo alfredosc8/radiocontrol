@@ -2,15 +2,14 @@ var radiocontrolAppServices = angular.module('radiocontrolAppServices', ['ngReso
 
 radiocontrolAppServices.factory('Schedule', ['$resource',
   function($resource) {
-    return $resource('api/v1/schedule/:scheduleId', {}, {
-      query: { method:'GET', params: { scheduleId: 'schedule' } }
-    });
+    return $resource('api/v1/schedule/:scheduleId', {}, {});
   }]);
 
-radiocontrolAppServices.factory('Channel', ['$resource',
-  function($resource) {
+radiocontrolAppServices.factory('Channel', ['$resource', 'AuthService',
+  function($resource, AuthService) {
+    ownerId = AuthService.getCurrentUser().id;
     return $resource('api/v1/channel/:channelId', {}, {
-      query: { method:'GET', params: { channelId: 'channel' } },
+      get: { method:'GET', params: { filter: 'owner', filterval: ownerId } },
       put: { method: 'PUT', params: { channelId: 'channel' }, isArray: false }
     });
   }]);
@@ -29,3 +28,19 @@ radiocontrolAppServices.factory('DiscoveryService', ['$resource',
             query: { method:'GET', params: {} }
         });
 }]);
+
+radiocontrolAppServices.factory('AuthService', function() {
+    var authServiceInstance = {};
+
+    authServiceInstance.getCurrentUser = function() {
+        return {
+            "id": 'jonas.birme@gmail.com',
+            "first": 'Jonas',
+            "last": 'Birmé'
+        };
+    };
+    authServiceInstance.authenticated = function() {
+        return true;
+    };
+    return authServiceInstance;
+});

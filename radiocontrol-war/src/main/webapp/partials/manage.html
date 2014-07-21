@@ -1,4 +1,15 @@
 <div class="container-fluid">
+    <div class="row">
+        <div class="col-md-9 navbar" ng-controller="NavbarCtrl">
+            <button type="button" class="btn btn-default btn-sm" ng-click="navHome()">Home</button>
+            <button type="button" class="btn btn-default btn-sm disabled">Schedules</button>
+            <button type="button" class="btn btn-default btn-sm disabled">Account</button>
+        </div>
+        <div class="col-md-3" ng-if="authenticated">
+            <i>Hello {{currentuser.first}} {{currentuser.last}}</i>
+            <button type="button" class="btn btn-default btn-sm">Logout</button>
+        </div>
+    </div>
     <div class="text-center">
         <h1>Hey Radio Deejay!</h1>
         <p>What do you want to do today?</p>

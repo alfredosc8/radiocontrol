@@ -18,7 +18,9 @@ public class RestRequest {
     private String action;
     private BufferedReader bodyReader;
     private String cursorParam;
-    private static String[] validResourceTypes = { "schedule", "channel", "discover" };
+    private String filterKey;
+    private String filterValue;
+    private static String[] validResourceTypes = { "schedule", "channel", "discover", "owner" };
 
     public RestRequest(String action, String pathInfo, BufferedReader bodyReader) throws ServletException {
         this.action = action;
@@ -95,4 +97,11 @@ public class RestRequest {
         return cursorParam;
     }
 
+    public void setFilterParams(String key, String value) {
+        this.filterKey = key;
+        this.filterValue = value;
+    }
+
+    public String getFilterKey() { return filterKey; };
+    public String getFilterValue() { return filterValue; }
 }
